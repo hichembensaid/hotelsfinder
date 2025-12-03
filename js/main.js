@@ -44,6 +44,10 @@ document.addEventListener('DOMContentLoaded', () => {
     initTabSwitcher();
     initMobileMenu();
     updateGuestsDisplay();
+    initStatsCounter();
+    initScrollAnimations();
+    initSearchEnhancements();
+    initSearchButtonLoader();
 });
 
 // Destination Search with Autocomplete
@@ -432,7 +436,112 @@ function validateEmail(email) {
     return re.test(email);
 }
 
+// Animated Stats Counter
+function initStatsCounter() {
+    const stats = document.querySelectorAll('.stat-card h3[data-target]');
+    
+    const animateCounter = (element) => {
+        const target = parseInt(element.getAttribute('data-target'));
+        const suffix = element.getAttribute('data-suffix') || '+';
+        const duration = 2000;
+        const increment = target / (duration / 16);
+        let current = 0;
+        
+        const updateCounter = () => {
+            current += increment;
+            if (current < target) {
+                const displayValue = Math.floor(current);
+                // Format large numbers with spaces for readability
+                element.textContent = displayValue.toLocaleString('fr-FR');
+                requestAnimationFrame(updateCounter);
+            } else {
+                element.textContent = target.toLocaleString('fr-FR') + suffix;
+            }
+        };
+        
+        updateCounter();
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateCounter(entry.target);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+    
+    stats.forEach(stat => observer.observe(stat));
+}
+
+// Scroll Animations
+function initScrollAnimations() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
+    
+    document.querySelectorAll('.card, .stat-card').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
+    });
+}
+
+// Enhanced Search Features
+function initSearchEnhancements() {
+    const searchInput = document.getElementById('destination');
+    
+    if (searchInput) {
+        // Add search icon animation on focus
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.style.backgroundColor = '#f0f8ff';
+        });
+        
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.style.backgroundColor = '';
+        });
+        
+        // Add typing indicator
+        let typingTimer;
+        searchInput.addEventListener('input', () => {
+            clearTimeout(typingTimer);
+            searchInput.parentElement.classList.add('searching');
+            
+            typingTimer = setTimeout(() => {
+                searchInput.parentElement.classList.remove('searching');
+            }, 500);
+        });
+    }
+}
+
+// Add loading state to search button
+function initSearchButtonLoader() {
+    const form = document.getElementById('searchForm');
+    if (form) {
+        form.addEventListener('submit', (e) => {
+            const btn = form.querySelector('button[type="submit"]');
+            btn.classList.add('loading');
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Recherche...';
+            
+            // Simulate search
+            setTimeout(() => {
+                btn.classList.remove('loading');
+                btn.innerHTML = '<i class="fas fa-search"></i>';
+            }, 2000);
+        });
+    }
+}
+
 // Console Welcome Message
-console.log('%cHotelsFinder POC', 'color: #0071c2; font-size: 24px; font-weight: bold;');
-console.log('%cPage d\'accueil inspirée de HotelsCombined', 'color: #666; font-size: 14px;');
+console.log('%cHotelsFinder Premium UX', 'color: #006ce4; font-size: 24px; font-weight: bold;');
+console.log('%cOptimisé pour la conversion et l\'engagement', 'color: #666; font-size: 14px;');
 console.log('État actuel:', state);

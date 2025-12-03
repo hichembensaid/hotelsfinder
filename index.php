@@ -53,13 +53,12 @@
         </nav>
     </header>
 
+
+
     <!-- Hero Section -->
-    <section class="hero bg-gradient text-white py-5">
-        <div class="container py-4">
-            <div class="text-center mb-4">
-                <h1 class="display-5 fw-bold mb-3">Les meilleures offres d'hôtels du monde entier. C'est notre garantie !</h1>
-                <p class="lead mb-4">Comparez des centaines de sites de voyage pour trouver le prix idéal</p>
-                
+    <section class="hero-section py-4">
+        <div class="container py-3">
+            <div class="text-center">
                 <!-- Search Form -->
                 <div class="card shadow-lg border-0 rounded-3">
                     <div class="card-body p-0">
@@ -130,8 +129,8 @@
                                 <!-- Search Button -->
                                 <div class="col-12 col-lg-2 search-field">
                                     <div class="p-2 h-100 d-flex align-items-center justify-content-center">
-                                        <button type="submit" class="btn btn-primary btn-lg w-100" style="height: 56px;">
-                                            <i class="fas fa-search"></i>
+                                        <button type="submit" class="btn btn-trivago btn-lg w-100 fw-bold" style="height: 56px;">
+                                            Rechercher
                                         </button>
                                     </div>
                                 </div>
@@ -143,19 +142,225 @@
         </div>
     </section>
 
+    <!-- Partners Section -->
+    <section class="py-4 bg-light">
+        <div class="container">
+            <h2 class="text-center fs-4 fw-normal mb-4">Nos partenaires</h2>
+            <div class="row g-4 align-items-center justify-content-center">
+                <div class="col-6 col-md-3 col-lg-2 text-center">
+                    <div class="partner-logo p-3 bg-white rounded">
+                        <img src="https://logodownload.org/wp-content/uploads/2019/01/booking-com-logo.png" alt="Booking.com" class="img-fluid" style="max-height: 40px;">
+                    </div>
+                </div>
+                <div class="col-6 col-md-3 col-lg-2 text-center">
+                    <div class="partner-logo p-3 bg-white rounded">
+                        <img src="https://cdn.worldvectorlogo.com/logos/agoda-1.svg" alt="Agoda" class="img-fluid" style="max-height: 40px;">
+                    </div>
+                </div>
+                <div class="col-6 col-md-3 col-lg-2 text-center">
+                    <div class="partner-logo p-3 bg-white rounded">
+                        <img src="https://logos-world.net/wp-content/uploads/2021/02/Hotels-com-Logo.png" alt="Hotels.com" class="img-fluid" style="max-height: 40px;">
+                    </div>
+                </div>
+                <div class="col-6 col-md-3 col-lg-2 text-center">
+                    <div class="partner-logo p-3 bg-white rounded">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/0f/Expedia_2012_logo.svg" alt="Expedia" class="img-fluid" style="max-height: 40px;">
+                    </div>
+                </div>
+                <div class="col-6 col-md-3 col-lg-2 text-center">
+                    <div class="partner-logo p-3 bg-white rounded">
+                        <span class="text-muted fw-semibold small">Accor</span>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3 col-lg-2 text-center">
+                    <div class="partner-logo p-3 bg-white rounded">
+                        <span class="text-muted fw-semibold small">Trip.com</span>
+                    </div>
+                </div>
+            </div>
+            <p class="text-center text-muted mt-3 mb-0">et des centaines d'autres partenaires</p>
+        </div>
+    </section>
+
+    <!-- USPs Section (Trivago Style) -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row g-4 text-center">
+                <div class="col-md-4">
+                    <div class="p-4">
+                        <div class="mb-3">
+                            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#007FA3" stroke-width="1.5">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <path d="m21 21-4.35-4.35"></path>
+                            </svg>
+                        </div>
+                        <h3 class="h5 fw-bold mb-3">Recherchez en toute simplicité</h3>
+                        <p class="text-muted">Recherchez facilement des millions d'hôtels en quelques secondes.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-4">
+                        <div class="mb-3">
+                            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#007FA3" stroke-width="1.5">
+                                <path d="M3 3v18h18"></path>
+                                <path d="M18 17V9"></path>
+                                <path d="M13 17V5"></path>
+                                <path d="M8 17v-3"></path>
+                            </svg>
+                        </div>
+                        <h3 class="h5 fw-bold mb-3">Comparez en toute confiance</h3>
+                        <p class="text-muted">Comparez les prix des hôtels de centaines de sites à la fois.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-4">
+                        <div class="mb-3">
+                            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#007FA3" stroke-width="1.5">
+                                <line x1="12" y1="1" x2="12" y2="23"></line>
+                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                            </svg>
+                        </div>
+                        <h3 class="h5 fw-bold mb-3">Faites de belles économies</h3>
+                        <p class="text-muted">Trouvez une super offre sur nos sites partenaires.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Special Offers (Trivago Style) -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <h2 class="fs-3 fw-normal mb-4">Les offres d'hôtels spéciales du moment</h2>
+            
+            <div class="row g-3">
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <a href="#" class="text-decoration-none">
+                        <div class="card border-0 h-100 hover-shadow">
+                            <img src="https://images.unsplash.com/photo-1499092346589-b9b6be3e94b2?w=400" class="card-img-top" alt="New York" style="height: 200px; object-fit: cover;">
+                            <div class="card-body">
+                                <h5 class="card-title fw-semibold text-dark">Hôtel Plaza NYC</h5>
+                                <div class="d-flex align-items-center mb-2">
+                                    <span class="badge bg-success me-2">8.9</span>
+                                    <small class="text-muted">Excellent (1245 avis)</small>
+                                </div>
+                                <p class="text-muted small mb-2">New York, États-Unis</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="badge bg-danger">-15%</span>
+                                    </div>
+                                    <div class="text-end">
+                                        <div class="fw-bold fs-5 text-primary">240 €</div>
+                                        <small class="text-muted">par nuit</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <a href="#" class="text-decoration-none">
+                        <div class="card border-0 h-100 hover-shadow">
+                            <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=400" class="card-img-top" alt="Paris" style="height: 200px; object-fit: cover;">
+                            <div class="card-body">
+                                <h5 class="card-title fw-semibold text-dark">Le Marais Boutique</h5>
+                                <div class="d-flex align-items-center mb-2">
+                                    <span class="badge bg-success me-2">9.2</span>
+                                    <small class="text-muted">Exceptionnel (892 avis)</small>
+                                </div>
+                                <p class="text-muted small mb-2">Paris, France</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="badge bg-danger">-20%</span>
+                                    </div>
+                                    <div class="text-end">
+                                        <div class="fw-bold fs-5 text-primary">189 €</div>
+                                        <small class="text-muted">par nuit</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <a href="#" class="text-decoration-none">
+                        <div class="card border-0 h-100 hover-shadow">
+                            <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=400" class="card-img-top" alt="Dubai" style="height: 200px; object-fit: cover;">
+                            <div class="card-body">
+                                <h5 class="card-title fw-semibold text-dark">Burj Al Arab View</h5>
+                                <div class="d-flex align-items-center mb-2">
+                                    <span class="badge bg-success me-2">9.5</span>
+                                    <small class="text-muted">Exceptionnel (2104 avis)</small>
+                                </div>
+                                <p class="text-muted small mb-2">Dubai, Émirats Arabes Unis</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="badge bg-danger">-18%</span>
+                                    </div>
+                                    <div class="text-end">
+                                        <div class="fw-bold fs-5 text-primary">330 €</div>
+                                        <small class="text-muted">par nuit</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <a href="#" class="text-decoration-none">
+                        <div class="card border-0 h-100 hover-shadow">
+                            <img src="https://images.unsplash.com/photo-1542051841857-5f90071e7989?w=400" class="card-img-top" alt="Tokyo" style="height: 200px; object-fit: cover;">
+                            <div class="card-body">
+                                <h5 class="card-title fw-semibold text-dark">Shibuya Grand Hotel</h5>
+                                <div class="d-flex align-items-center mb-2">
+                                    <span class="badge bg-success me-2">8.7</span>
+                                    <small class="text-muted">Excellent (1580 avis)</small>
+                                </div>
+                                <p class="text-muted small mb-2">Tokyo, Japon</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="badge bg-danger">-12%</span>
+                                    </div>
+                                    <div class="text-end">
+                                        <div class="fw-bold fs-5 text-primary">195 €</div>
+                                        <small class="text-muted">par nuit</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Popular Destinations -->
     <section class="py-5">
         <div class="container">
-            <h2 class="text-center fs-2 fw-bold mb-2">Commencez votre recherche en explorant les destinations populaires</h2>
-            <p class="text-center text-muted mb-5">Les meilleures offres d'hôtels du monde entier</p>
+            <div class="text-center mb-5">
+                <h2 class="fs-3 fw-normal mb-3">Destinations populaires</h2>
+                <p class="text-muted mb-0">Découvrez les villes les plus recherchées</p>
+            </div>
             
             <div class="row g-4">
                 <div class="col-12 col-sm-6 col-lg-3">
-                    <div class="card destination-card border-0 shadow-sm rounded-3 overflow-hidden h-100">
+                    <div class="card destination-card border-0 shadow-sm rounded-3 overflow-hidden h-100 position-relative">
+                        <span class="badge bg-danger position-absolute top-0 end-0 m-3 z-3">-25%</span>
                         <div class="position-relative" style="height: 250px; background: url('https://images.unsplash.com/photo-1499092346589-b9b6be3e94b2?w=500') center/cover;">
                             <div class="position-absolute bottom-0 start-0 end-0 p-3 bg-gradient-dark text-white">
-                                <h5 class="mb-1 fw-bold">New York</h5>
-                                <small class="opacity-90">À partir de 120€/nuit</small>
+                                <div class="d-flex justify-content-between align-items-end">
+                                    <div>
+                                        <h5 class="mb-1 fw-bold">New York</h5>
+                                        <small class="opacity-90">À partir de <strong class="fs-6">120€</strong>/nuit</small>
+                                    </div>
+                                    <div class="text-end">
+                                        <i class="fas fa-star text-warning"></i>
+                                        <small>4.8</small>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -288,96 +493,121 @@
         </div>
     </section>
 
-    <!-- More Destinations -->
-    <!-- More Destinations -->
+
+
+    <!-- Recherches très populaires (Trivago Style) -->
     <section class="py-5">
         <div class="container">
-            <h2 class="text-center fs-2 fw-bold mb-5">Voyagez à travers le monde</h2>
+            <h2 class="fs-3 fw-normal mb-4">Recherches très populaires</h2>
             
-            <div class="row g-3">
-                <div class="col-12 col-sm-6 col-md-3">
-                    <div class="d-flex flex-column gap-2">
-                        <a href="#" class="text-decoration-none text-dark border-bottom pb-2 destination-link">Hôtels à New York</a>
-                        <a href="#" class="text-decoration-none text-dark border-bottom pb-2 destination-link">Hôtels à Tokyo</a>
-                        <a href="#" class="text-decoration-none text-dark border-bottom pb-2 destination-link">Hôtels à Dubai</a>
-                        <a href="#" class="text-decoration-none text-dark border-bottom pb-2 destination-link">Hôtels à Melbourne</a>
-                        <a href="#" class="text-decoration-none text-dark border-bottom pb-2 destination-link">Hôtels à Istanbul</a>
-                        <a href="#" class="text-decoration-none text-dark border-bottom pb-2 destination-link">Hôtels à Bangkok</a>
-                        <a href="#" class="text-decoration-none text-dark border-bottom pb-2 destination-link">Hôtels à Sydney</a>
-                    </div>
+            <div class="row g-2">
+                <div class="col-6 col-md-4 col-lg-3">
+                    <a href="#" class="text-decoration-none">
+                        <div class="p-3 border rounded hover-bg-light">
+                            <div class="fw-semibold text-dark">Hôtels Paris</div>
+                            <small class="text-muted">5 811 hôtels</small><br>
+                            <small class="text-muted">270 € en moyenne</small>
+                        </div>
+                    </a>
                 </div>
-                
-                <div class="col-12 col-sm-6 col-md-3">
-                    <div class="d-flex flex-column gap-2">
-                        <a href="#" class="text-decoration-none text-dark border-bottom pb-2 destination-link">Hôtels à Londres</a>
-                        <a href="#" class="text-decoration-none text-dark border-bottom pb-2 destination-link">Hôtels à Paris</a>
-                        <a href="#" class="text-decoration-none text-dark border-bottom pb-2 destination-link">Hôtels à Hong Kong</a>
-                        <a href="#" class="text-decoration-none text-dark border-bottom pb-2 destination-link">Hôtels à Las Vegas</a>
-                        <a href="#" class="text-decoration-none text-dark border-bottom pb-2 destination-link">Hôtels à Rome</a>
-                        <a href="#" class="text-decoration-none text-dark border-bottom pb-2 destination-link">Hôtels à Amsterdam</a>
-                        <a href="#" class="text-decoration-none text-dark border-bottom pb-2 destination-link">Hôtels à Barcelone</a>
-                    </div>
+                <div class="col-6 col-md-4 col-lg-3">
+                    <a href="#" class="text-decoration-none">
+                        <div class="p-3 border rounded hover-bg-light">
+                            <div class="fw-semibold text-dark">Hôtels Londres</div>
+                            <small class="text-muted">6 182 hôtels</small><br>
+                            <small class="text-muted">312 € en moyenne</small>
+                        </div>
+                    </a>
                 </div>
-                
-                <div class="col-12 col-sm-6 col-md-3">
-                    <div class="d-flex flex-column gap-2">
-                        <a href="#" class="text-decoration-none text-dark border-bottom pb-2 destination-link">Hôtels à Seoul</a>
-                        <a href="#" class="text-decoration-none text-dark border-bottom pb-2 destination-link">Hôtels à Osaka</a>
-                        <a href="#" class="text-decoration-none text-dark border-bottom pb-2 destination-link">Hôtels à Kyoto</a>
-                        <a href="#" class="text-decoration-none text-dark border-bottom pb-2 destination-link">Hôtels à Lisbonne</a>
-                        <a href="#" class="text-decoration-none text-dark border-bottom pb-2 destination-link">Hôtels à Vienne</a>
-                        <a href="#" class="text-decoration-none text-dark border-bottom pb-2 destination-link">Hôtels à Milan</a>
-                        <a href="#" class="text-decoration-none text-dark border-bottom pb-2 destination-link">Hôtels à Cancún</a>
-                    </div>
+                <div class="col-6 col-md-4 col-lg-3">
+                    <a href="#" class="text-decoration-none">
+                        <div class="p-3 border rounded hover-bg-light">
+                            <div class="fw-semibold text-dark">Hôtels Barcelone</div>
+                            <small class="text-muted">3 929 hôtels</small><br>
+                            <small class="text-muted">193 € en moyenne</small>
+                        </div>
+                    </a>
                 </div>
-                
-                <div class="col-12 col-sm-6 col-md-3">
-                    <div class="d-flex flex-column gap-2">
-                        <a href="#" class="text-decoration-none text-dark border-bottom pb-2 destination-link">Hôtels à Kuala Lumpur</a>
-                        <a href="#" class="text-decoration-none text-dark border-bottom pb-2 destination-link">Hôtels à Shanghai</a>
-                        <a href="#" class="text-decoration-none text-dark border-bottom pb-2 destination-link">Hôtels à Taipei</a>
-                        <a href="#" class="text-decoration-none text-dark border-bottom pb-2 destination-link">Hôtels à Chiang Mai</a>
-                        <a href="#" class="text-decoration-none text-dark border-bottom pb-2 destination-link">Hôtels à Vancouver</a>
-                        <a href="#" class="text-decoration-none text-dark border-bottom pb-2 destination-link">Hôtels à Doha</a>
-                        <a href="#" class="text-decoration-none text-dark border-bottom pb-2 destination-link">Hôtels à Sapporo</a>
-                    </div>
+                <div class="col-6 col-md-4 col-lg-3">
+                    <a href="#" class="text-decoration-none">
+                        <div class="p-3 border rounded hover-bg-light">
+                            <div class="fw-semibold text-dark">Hôtels Marrakech</div>
+                            <small class="text-muted">3 109 hôtels</small><br>
+                            <small class="text-muted">193 € en moyenne</small>
+                        </div>
+                    </a>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FAQ Section -->
-    <section class="py-5 bg-light">
-        <div class="container">
-            <h2 class="text-center fs-2 fw-bold mb-5">Questions fréquentes</h2>
-            
-            <div class="row g-4">
-                <div class="col-12 col-md-6">
-                    <div class="card border-0 shadow-sm rounded-3 h-100 p-4">
-                        <h5 class="fw-bold mb-3">Comment trouvez-vous les meilleures offres ?</h5>
-                        <p class="text-muted mb-0">Notre moteur de recherche compare en temps réel les prix de centaines de sites de réservation pour vous présenter les meilleures offres disponibles.</p>
-                    </div>
+                <div class="col-6 col-md-4 col-lg-3">
+                    <a href="#" class="text-decoration-none">
+                        <div class="p-3 border rounded hover-bg-light">
+                            <div class="fw-semibold text-dark">Hôtels Dubai</div>
+                            <small class="text-muted">4 632 hôtels</small><br>
+                            <small class="text-muted">332 € en moyenne</small>
+                        </div>
+                    </a>
                 </div>
-                
-                <div class="col-12 col-md-6">
-                    <div class="card border-0 shadow-sm rounded-3 h-100 p-4">
-                        <h5 class="fw-bold mb-3">Les alertes prix sont-elles gratuites ?</h5>
-                        <p class="text-muted mb-0">Oui, les alertes prix sont totalement gratuites. Inscrivez-vous simplement avec votre email pour être notifié des baisses de prix.</p>
-                    </div>
+                <div class="col-6 col-md-4 col-lg-3">
+                    <a href="#" class="text-decoration-none">
+                        <div class="p-3 border rounded hover-bg-light">
+                            <div class="fw-semibold text-dark">Hôtels New York</div>
+                            <small class="text-muted">2 450 hôtels</small><br>
+                            <small class="text-muted">285 € en moyenne</small>
+                        </div>
+                    </a>
                 </div>
-                
-                <div class="col-12 col-md-6">
-                    <div class="card border-0 shadow-sm rounded-3 h-100 p-4">
-                        <h5 class="fw-bold mb-3">Quels sont les avantages de l'application ?</h5>
-                        <p class="text-muted mb-0">L'application vous permet de gérer vos réservations, recevoir des notifications en temps réel et accéder à des offres exclusives mobiles.</p>
-                    </div>
+                <div class="col-6 col-md-4 col-lg-3">
+                    <a href="#" class="text-decoration-none">
+                        <div class="p-3 border rounded hover-bg-light">
+                            <div class="fw-semibold text-dark">Hôtels Tokyo</div>
+                            <small class="text-muted">1 850 hôtels</small><br>
+                            <small class="text-muted">195 € en moyenne</small>
+                        </div>
+                    </a>
                 </div>
-                
-                <div class="col-12 col-md-6">
-                    <div class="card border-0 shadow-sm rounded-3 h-100 p-4">
-                        <h5 class="fw-bold mb-3">Comment annuler une réservation ?</h5>
-                        <p class="text-muted mb-0">Les conditions d'annulation dépendent du site de réservation choisi. Consultez les détails avant de confirmer votre réservation.</p>
-                    </div>
+                <div class="col-6 col-md-4 col-lg-3">
+                    <a href="#" class="text-decoration-none">
+                        <div class="p-3 border rounded hover-bg-light">
+                            <div class="fw-semibold text-dark">Hôtels Rome</div>
+                            <small class="text-muted">4 220 hôtels</small><br>
+                            <small class="text-muted">210 € en moyenne</small>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-6 col-md-4 col-lg-3">
+                    <a href="#" class="text-decoration-none">
+                        <div class="p-3 border rounded hover-bg-light">
+                            <div class="fw-semibold text-dark">Hôtels Amsterdam</div>
+                            <small class="text-muted">1 680 hôtels</small><br>
+                            <small class="text-muted">245 € en moyenne</small>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-6 col-md-4 col-lg-3">
+                    <a href="#" class="text-decoration-none">
+                        <div class="p-3 border rounded hover-bg-light">
+                            <div class="fw-semibold text-dark">Hôtels Istanbul</div>
+                            <small class="text-muted">3 550 hôtels</small><br>
+                            <small class="text-muted">165 € en moyenne</small>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-6 col-md-4 col-lg-3">
+                    <a href="#" class="text-decoration-none">
+                        <div class="p-3 border rounded hover-bg-light">
+                            <div class="fw-semibold text-dark">Hôtels Bangkok</div>
+                            <small class="text-muted">4 120 hôtels</small><br>
+                            <small class="text-muted">95 € en moyenne</small>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-6 col-md-4 col-lg-3">
+                    <a href="#" class="text-decoration-none">
+                        <div class="p-3 border rounded hover-bg-light">
+                            <div class="fw-semibold text-dark">Hôtels Lisbonne</div>
+                            <small class="text-muted">2 340 hôtels</small><br>
+                            <small class="text-muted">180 € en moyenne</small>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
