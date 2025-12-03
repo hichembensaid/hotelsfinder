@@ -570,6 +570,1144 @@ html {
     background: var(--bs-primary);
 }
 
+/* ==========================================
+   SEARCH RESULTS PAGE - TRIVAGO STYLE
+   ========================================== */
+
+/* Top Search Bar */
+.top-search-bar {
+    z-index: 1020;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.search-destination,
+.search-dates,
+.search-guests {
+    font-size: 0.95rem;
+}
+
+/* Filters Sidebar */
+.filters-sidebar {
+    position: sticky;
+    top: 100px;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    padding-right: 1rem;
+}
+
+.filters-sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.filters-sidebar::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+}
+
+.filter-section {
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.filter-section:last-child {
+    border-bottom: none;
+}
+
+/* Quick Filter Chips */
+.quick-filter-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.filter-chip {
+    cursor: pointer;
+    display: inline-block;
+}
+
+.filter-checkbox {
+    display: none;
+}
+
+.chip-label {
+    display: inline-block;
+    padding: 8px 16px;
+    background: #f5f5f5;
+    border: 1px solid #e0e0e0;
+    border-radius: 50px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #333;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.chip-label:hover {
+    background: #e9ecef;
+    border-color: var(--bs-primary);
+}
+
+.filter-checkbox:checked + .chip-label {
+    background: var(--bs-primary);
+    border-color: var(--bs-primary);
+    color: white;
+}
+
+/* Rating Filters */
+.rating-filters {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.rating-filter-btn {
+    padding: 8px 16px;
+    background: #f5f5f5;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.rating-filter-btn:hover {
+    background: #e9ecef;
+    border-color: var(--bs-primary);
+}
+
+.rating-filter-btn.active {
+    background: var(--bs-primary);
+    border-color: var(--bs-primary);
+    color: white;
+}
+
+/* ========================================
+   KAYAK STYLE - Hotel Card
+======================================== */
+
+.hotel-card-kayak {
+    margin-bottom: 20px;
+}
+
+.hotel-card-kayak .card {
+    background: white;
+    border: 1px solid #e0e0e0 !important;
+    border-radius: 12px !important;
+    overflow: hidden;
+    transition: all 0.25s ease;
+}
+
+.hotel-card-kayak .card:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12) !important;
+    transform: translateY(-2px);
+    border-color: #ccc !important;
+}
+
+/* Image Carousel Section */
+.kayak-image-carousel {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+    background: #f5f5f5;
+}
+
+.carousel-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.carousel-images {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.carousel-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.carousel-image.active {
+    opacity: 1;
+}
+
+.carousel-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    transition: all 0.2s ease;
+}
+
+.carousel-nav:hover {
+    background: white;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-prev {
+    left: 8px;
+}
+
+.carousel-next {
+    right: 8px;
+}
+
+.carousel-nav i {
+    font-size: 14px;
+    color: #333;
+}
+
+.image-actions {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: flex;
+    gap: 8px;
+    z-index: 2;
+}
+
+.btn-save-kayak,
+.btn-share-kayak {
+    background: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    transition: all 0.2s ease;
+}
+
+.btn-save-kayak:hover,
+.btn-share-kayak:hover {
+    background: #f9f9f9;
+    transform: scale(1.05);
+}
+
+.btn-save-kayak i {
+    color: #e63946;
+    font-size: 1rem;
+}
+
+.btn-share-kayak i {
+    color: #007bff;
+}
+
+/* Hotel Details Section - Kayak */
+.hotel-details-kayak {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.kayak-name-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px !important;
+}
+
+.kayak-name-location {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.kayak-hotel-name {
+    font-size: 1.125rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 0;
+}
+
+.kayak-name-link {
+    color: #1a1a1a;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.kayak-name-link:hover {
+    color: #007bff;
+}
+
+.kayak-rating-compact {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.rating-score-badge {
+    background: #2ecc71;
+    color: white;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 6px 10px;
+    border-radius: 6px;
+    min-width: 42px;
+    text-align: center;
+    line-height: 1;
+}
+
+.rating-score-label {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.rating-quality {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    line-height: 1.2;
+}
+
+.rating-count {
+    font-size: 0.75rem;
+    color: #666;
+    line-height: 1.2;
+}
+
+.kayak-location {
+    margin: 0;
+    line-height: 1;
+}
+
+.btn-location-kayak {
+    background: none;
+    border: none;
+    color: #007bff;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: underline;
+    line-height: 1.2;
+}
+
+.btn-location-kayak:hover {
+    color: #0056b3;
+}
+
+/* Rating & Stars - Kayak */
+.kayak-rating-stars {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.rating-score-kayak {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.score-badge {
+    background: #2ecc71;
+    color: white;
+    font-size: 0.875rem;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 6px;
+    min-width: 36px;
+    text-align: center;
+}
+
+.score-text {
+    font-size: 0.875rem;
+    color: #666;
+}
+
+.stars-kayak {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.star-text {
+    font-size: 0.8125rem;
+    color: #666;
+}
+
+.stars-kayak i {
+    color: #1a1a1a;
+    font-size: 10px;
+}
+
+/* Provider Deals List - Kayak */
+.kayak-deals-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.kayak-deal-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.kayak-deal-item:hover {
+    border-color: #007bff;
+    background: #f8f9fa;
+    transform: translateX(2px);
+}
+
+.deal-provider-info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+}
+
+.provider-logo {
+    height: 24px;
+    width: auto;
+    max-width: 100px;
+    object-fit: contain;
+}
+
+.deal-amenities {
+    display: flex;
+    gap: 4px;
+}
+
+.amenity-badge {
+    background: #e8f5e9;
+    color: #2e7d32;
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 3px 8px;
+    border-radius: 4px;
+}
+
+.deal-price-info {
+    text-align: right;
+}
+
+.deal-price {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+/* Show More Button - Kayak */
+.kayak-show-more-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px 12px;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.kayak-show-more-btn:hover {
+    border-color: #007bff;
+    background: #f8f9fa;
+}
+
+.show-more-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+}
+
+.show-more-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.provider-name {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.more-count {
+    font-size: 0.75rem;
+    color: #666;
+}
+
+.show-more-content i {
+    color: #666;
+    font-size: 14px;
+}
+
+.show-more-price {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #059669;
+}
+
+/* Main Price Section (Right) - Kayak */
+.kayak-price-section {
+    background: linear-gradient(180deg, #fafafa 0%, #ffffff 100%);
+    border-left: 1px solid #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-deal-kayak {
+    text-align: center;
+    width: 100%;
+}
+
+.main-provider {
+    margin-bottom: 12px;
+}
+
+.main-provider-logo {
+    height: 32px;
+    width: auto;
+    max-width: 120px;
+    object-fit: contain;
+}
+
+.main-price-kayak {
+    margin-bottom: 12px;
+}
+
+.price-large {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    line-height: 1;
+}
+
+.main-amenities {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.amenity-tag {
+    background: #e8f5e9;
+    color: #2e7d32;
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 4px;
+}
+
+.btn-view-deal-kayak {
+    background: #ff8000;
+    border: none;
+    color: white;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: none;
+}
+
+.btn-view-deal-kayak:hover {
+    background: #e67300;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 128, 0, 0.3);
+}
+
+/* Image Button */
+.hotel-image-btn {
+    position: relative;
+    width: 100%;
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    display: block;
+}
+
+/* Hotel Image */
+.hotel-image-container {
+    position: relative;
+    height: 100%;
+    min-height: 280px;
+}
+
+.hotel-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-counter {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.btn-favorite {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
+    background: white;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: all 0.2s ease;
+}
+
+.btn-favorite:hover {
+    transform: scale(1.1);
+    color: #e74c3c;
+}
+
+.badge-popular {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: var(--trivago-orange);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+/* Image Overlay Actions */
+.image-overlay-actions {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 2;
+}
+
+/* Badge List */
+.badge-list {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    z-index: 2;
+}
+
+.badge-popular-wrapper {
+    display: inline-block;
+}
+
+/* Hotel Details Section - Kayak Style */
+.hotel-details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 16px 20px !important;
+}
+
+.hotel-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.4;
+    margin: 0 0 4px 0;
+}
+
+.hotel-name-link {
+    color: #212529;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.hotel-name-link:hover {
+    color: var(--bs-primary);
+}
+
+/* Hotel Type */
+.hotel-type-section {
+    margin: 0;
+}
+
+.hotel-type-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: #666;
+    font-size: 0.875rem;
+    transition: color 0.2s ease;
+}
+
+.hotel-type-btn:hover {
+    color: var(--bs-primary);
+}
+
+.star-rating {
+    display: inline-flex;
+    gap: 3px;
+    align-items: center;
+}
+
+.star-icon {
+    font-size: 5px;
+    color: #666;
+}
+
+.type-label {
+    font-weight: 500;
+}
+
+/* Highlights */
+.hotel-highlights-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    text-align: left;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 4px;
+}
+
+.highlights-wrapper {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+}
+
+.highlights-icon {
+    flex-shrink: 0;
+    color: var(--trivago-orange);
+    font-size: 0.875rem;
+    margin-top: 2px;
+}
+
+.highlights-text {
+    font-size: 0.875rem;
+    color: #666;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Distance */
+.distance-section {
+    margin: 8px 0;
+}
+
+.distance-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: #666;
+    font-size: 0.875rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.distance-content {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.distance-content i {
+    color: var(--bs-primary);
+    font-size: 0.875rem;
+}
+
+/* Rating Section */
+.rating-section-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    text-align: left;
+    margin-top: 8px;
+}
+
+.aggregate-rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.rating-badge {
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: white;
+    display: inline-block;
+}
+
+.rating-display {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.rating-text {
+    font-size: 0.875rem;
+    color: #333;
+}
+
+/* Pricing Section - Kayak Style */
+.pricing-section {
+    background: linear-gradient(180deg, #ffffff 0%, #f9fafb 100%);
+    border-left: 1px solid #e7e7e7;
+    padding: 16px 20px !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.pricing-recommended {
+    flex: 1;
+}
+
+.deal-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Deal Badges */
+.deal-badges {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 0;
+}
+
+.badge-price-drop {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.badge-price-drop .badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.badge-best-price {
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    color: #856404;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+/* Provider Details */
+.deal-provider {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: 6px;
+}
+
+.advertiser-details {
+    font-size: 0.8125rem;
+}
+
+.advertiser-name {
+    font-weight: 600;
+    color: #333;
+}
+
+.dbr-label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.7rem;
+    color: #666;
+}
+
+.dbr-label i {
+    color: var(--bs-primary);
+    font-size: 0.7rem;
+}
+
+/* Deal Attributes */
+.deal-attributes {
+    list-style: none;
+    padding: 0;
+    margin: 6px 0 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.rate-attribute {
+    display: inline-block;
+}
+
+.rate-attribute-btn {
+    background: #e9ecef;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: #333;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.rate-attribute-btn:hover {
+    background: #dee2e6;
+    border-color: #007FA3;
+}
+
+/* Pricing Details */
+.pricing-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.price-main {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.price-container {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.price-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--bs-primary);
+    line-height: 1;
+}
+
+.price-breakdown-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: #999;
+    font-size: 0.8rem;
+    transition: color 0.2s ease;
+}
+
+.price-breakdown-btn:hover {
+    color: var(--bs-primary);
+}
+
+.anchor-price-label {
+    font-size: 0.7rem;
+    color: #999;
+    text-decoration: line-through;
+}
+
+/* CTA Section */
+.cta-section {
+    margin-top: 8px;
+}
+
+.cta-section .btn-trivago {
+    padding: 10px 16px;
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+/* Additional Prices - Kayak Style */
+.additional-prices-btn {
+    background: white;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-top: 16px;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.additional-prices-btn:hover {
+    background: #fafafa;
+    border-color: #9ca3af;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.additional-prices-btn::before {
+    content: "Agoda.com and 4 more";
+    position: absolute;
+    top: 12px;
+    left: 14px;
+    font-size: 0.8125rem;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.chevron-icon {
+    position: absolute;
+    bottom: 14px;
+    right: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #6b7280;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+}
+
+.additional-prices-btn:hover .chevron-icon {
+    transform: rotate(180deg);
+    color: #374151;
+}
+
+.chevron-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+.price-with-advertiser {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding-right: 30px;
+    margin-top: 24px;
+}
+
+.price-with-advertiser:first-of-type {
+    margin-top: 0;
+}
+
+.price-small {
+    font-weight: 700;
+    color: #059669;
+    font-size: 1rem;
+    line-height: 1.2;
+    order: 2;
+}
+
+.advertiser-small {
+    display: flex;
+    align-items: center;
+    order: 1;
+    flex: 1;
+}
+
+.advertiser-name {
+    color: #374151;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .filters-sidebar {
+        position: static;
+        max-height: none;
+        margin-bottom: 2rem;
+    }
+    
+    .hotel-image-container {
+        min-height: 200px;
+    }
+    
+    .hotel-pricing {
+        border-left: none;
+        border-top: 1px solid #e0e0e0;
+    }
+}
+
+@media (max-width: 768px) {
+    .top-search-bar .row > div {
+        margin-bottom: 0.5rem;
+    }
+    
+    .hotel-card {
+        margin-bottom: 1.5rem;
+    }
+    
+    .rating-badge {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+    
+    .price-value {
+        font-size: 1.5rem;
+    }
+}
+
 /* Loading Spinner */
 @keyframes spin {
     from { transform: rotate(0deg); }
