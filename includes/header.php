@@ -16,7 +16,7 @@
     <header class="header sticky-top bg-white shadow-sm">
         <nav class="navbar navbar-expand-lg navbar-light">
             <div class="container">
-                <a class="navbar-brand d-flex align-items-center" href="#">
+                <a class="navbar-brand d-flex align-items-center" href="/">
                     <i class="fas fa-hotel text-primary fs-4 me-2"></i>
                     <span class="fw-bold text-primary">HotelsFinder</span>
                 </a>
@@ -28,10 +28,10 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav mx-auto">
                         <li class="nav-item">
-                            <a class="nav-link active fw-semibold" href="#"><i class="fas fa-bed me-1"></i> Hébergements</a>
+                            <a class="nav-link active fw-semibold" href="search.php"><i class="fas fa-bed me-1"></i> Hébergements</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="fas fa-plane me-1"></i> Vols</a>
+                            <a class="nav-link" href="hotels.php"><i class="fas fa-plane me-1"></i> Hotels</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#"><i class="fas fa-car me-1"></i> Voitures</a>

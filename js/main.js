@@ -101,23 +101,62 @@ function initDestinationSearch() {
 // Guests Dropdown
 function initGuestsDropdown() {
     if (guestsBtn && guestsDropdown) {
+        // Déplacer le dropdown dans le body pour éviter les problèmes d'overflow
+        document.body.appendChild(guestsDropdown);
+        
+        // Fonction pour positionner le dropdown
+        const positionDropdown = () => {
+            const rect = guestsBtn.getBoundingClientRect();
+            guestsDropdown.style.position = 'fixed';
+            guestsDropdown.style.top = (rect.bottom + 8) + 'px';
+            guestsDropdown.style.left = rect.left + 'px';
+            guestsDropdown.style.width = rect.width + 'px';
+        };
+        
         guestsBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            guestsDropdown.classList.toggle('show');
+            const isShowing = guestsDropdown.classList.toggle('show');
+            if (isShowing) {
+                positionDropdown();
+                guestsBtn.classList.add('dropdown-active');
+            } else {
+                guestsBtn.classList.remove('dropdown-active');
+            }
         });
         
         guestsBtn.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
-                guestsDropdown.classList.toggle('show');
+                const isShowing = guestsDropdown.classList.toggle('show');
+                if (isShowing) {
+                    positionDropdown();
+                    guestsBtn.classList.add('dropdown-active');
+                } else {
+                    guestsBtn.classList.remove('dropdown-active');
+                }
             }
         });
+        
+        // Repositionner lors du scroll ou resize
+        let repositionTimeout;
+        const handleReposition = () => {
+            if (guestsDropdown.classList.contains('show')) {
+                clearTimeout(repositionTimeout);
+                repositionTimeout = setTimeout(positionDropdown, 10);
+            }
+        };
+        
+        window.addEventListener('scroll', handleReposition, true);
+        window.addEventListener('resize', handleReposition);
     }
     
     // Close dropdown when clicking outside
     document.addEventListener('click', (e) => {
-        if (!e.target.closest('.col-12.col-lg-3.search-field') && guestsDropdown) {
+        if (!e.target.closest('#guestsBtn') && !e.target.closest('#guestsDropdown') && guestsDropdown) {
             guestsDropdown.classList.remove('show');
+            if (guestsBtn) {
+                guestsBtn.classList.remove('dropdown-active');
+            }
         }
     });
 }
@@ -864,6 +903,596 @@ function initPerformanceMonitoring() {
 }
 
 // Initialize all new features
+// ========================================
+// HOTELS.PHP - FICHE HOTEL (KAYAK STYLE)
+// ========================================
+
+/**
+ * Navigation sticky avec highlight des sections
+ */
+function initHotelDetailNav() {
+    const nav = document.querySelector('.hotel-detail-nav');
+    if (!nav) return;
+
+    const navLinks = nav.querySelectorAll('.nav-link');
+    const sections = document.querySelectorAll('[id]');
+
+    // Fonction pour mettre à jour le lien actif
+    function updateActiveLink() {
+        const scrollPos = window.scrollY + 200;
+
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.offsetHeight;
+            const sectionId = section.getAttribute('id');
+
+            if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${sectionId}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        });
+    }
+
+    // Smooth scroll vers les sections
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = link.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
+            
+            if (targetSection) {
+                const offsetTop = targetSection.offsetTop - 150;
+                window.scrollTo({
+                    top: offsetTop,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+
+    // Écouter le scroll
+    window.addEventListener('scroll', updateActiveLink);
+    updateActiveLink(); // Init
+}
+
+/**
+ * Affichage dynamique du prix total
+ */
+function initPriceCalculator() {
+    const checkinInput = document.querySelector('.sticky-top input[type="date"]:first-of-type');
+    const checkoutInput = document.querySelector('.sticky-top input[type="date"]:last-of-type');
+    
+    if (!checkinInput || !checkoutInput) return;
+
+    function calculateNights() {
+        const checkin = new Date(checkinInput.value);
+        const checkout = new Date(checkoutInput.value);
+        
+        if (checkin && checkout && checkout > checkin) {
+            const nights = Math.ceil((checkout - checkin) / (1000 * 60 * 60 * 24));
+            const pricePerNight = 88;
+            const totalPrice = nights * pricePerNight;
+            
+            // Afficher un badge avec le nombre de nuits
+            const priceDisplay = document.querySelector('.sticky-top .h3.fw-bold');
+            if (priceDisplay && nights > 1) {
+                const nightsBadge = document.createElement('small');
+                nightsBadge.className = 'text-muted d-block';
+                nightsBadge.style.fontSize = '14px';
+                nightsBadge.textContent = `${nights} nuits = ${totalPrice} €`;
+                
+                // Supprimer l'ancien badge s'il existe
+                const oldBadge = priceDisplay.parentElement.querySelector('.nights-badge');
+                if (oldBadge) oldBadge.remove();
+                
+                nightsBadge.className += ' nights-badge';
+                priceDisplay.parentElement.insertBefore(nightsBadge, priceDisplay.nextSibling);
+            }
+        }
+    }
+
+    checkinInput.addEventListener('change', calculateNights);
+    checkoutInput.addEventListener('change', calculateNights);
+}
+
+/**
+ * Animation des cartes d'avis au scroll
+ */
+function initReviewsAnimation() {
+    const reviewCards = document.querySelectorAll('.reviews-list .card');
+    if (reviewCards.length === 0) return;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }, index * 100);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    reviewCards.forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = 'all 0.5s ease';
+        observer.observe(card);
+    });
+}
+
+/**
+ * Filtrage des offres avec petit-déjeuner
+ */
+function initBreakfastFilter() {
+    const breakfastCheckbox = document.getElementById('breakfastFilter');
+    if (!breakfastCheckbox) return;
+
+    const roomOffers = document.querySelectorAll('.room-offers .card');
+
+    breakfastCheckbox.addEventListener('change', (e) => {
+        const showOnlyBreakfast = e.target.checked;
+
+        roomOffers.forEach(card => {
+            const hasBreakfast = card.querySelector('.badge .fa-coffee');
+            
+            if (showOnlyBreakfast && !hasBreakfast) {
+                card.style.display = 'none';
+                card.style.animation = 'fadeOut 0.3s ease';
+            } else {
+                card.style.display = 'block';
+                card.style.animation = 'fadeIn 0.3s ease';
+            }
+        });
+
+        // Afficher un message si aucun résultat
+        const visibleOffers = Array.from(roomOffers).filter(card => card.style.display !== 'none');
+        const existingMsg = document.querySelector('.no-results-message');
+        
+        if (visibleOffers.length === 0 && !existingMsg) {
+            const message = document.createElement('div');
+            message.className = 'alert alert-info no-results-message';
+            message.innerHTML = '<i class="fas fa-info-circle me-2"></i> Aucune offre avec petit-déjeuner gratuit disponible pour ces dates.';
+            roomOffers[0].parentElement.appendChild(message);
+        } else if (visibleOffers.length > 0 && existingMsg) {
+            existingMsg.remove();
+        }
+    });
+}
+
+/**
+ * Bouton "Lire plus" pour les avis
+ */
+function initReadMore() {
+    const readMoreBtns = document.querySelectorAll('.reviews-list .btn-link');
+    
+    readMoreBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const reviewText = btn.previousElementSibling.querySelector('p');
+            
+            if (reviewText) {
+                reviewText.style.maxHeight = reviewText.style.maxHeight === 'none' ? '60px' : 'none';
+                reviewText.style.overflow = reviewText.style.overflow === 'visible' ? 'hidden' : 'visible';
+                btn.textContent = btn.textContent === 'Lire plus' ? 'Lire moins' : 'Lire plus';
+            }
+        });
+    });
+}
+
+/**
+ * Animation du compteur de recherches en temps réel
+ */
+function initLiveViewersCounter() {
+    const priceCard = document.querySelector('.sticky-top .card');
+    if (!priceCard) return;
+
+    // Créer un badge de viewers
+    const viewersBadge = document.createElement('div');
+    viewersBadge.className = 'alert alert-warning mb-0 mt-2';
+    viewersBadge.style.fontSize = '13px';
+    viewersBadge.innerHTML = '<i class="fas fa-eye me-2"></i> <span id="viewersCount">0</span> personnes consultent cet hôtel';
+    
+    const cardBody = priceCard.querySelector('.card-body');
+    cardBody.appendChild(viewersBadge);
+
+    // Animer le compteur
+    let viewers = Math.floor(Math.random() * 15) + 5;
+    const viewersSpan = document.getElementById('viewersCount');
+    
+    setInterval(() => {
+        const change = Math.random() > 0.5 ? 1 : -1;
+        viewers = Math.max(3, Math.min(25, viewers + change));
+        
+        viewersSpan.style.animation = 'pulse 0.5s ease';
+        viewersSpan.textContent = viewers;
+        
+        setTimeout(() => {
+            viewersSpan.style.animation = '';
+        }, 500);
+    }, 4000);
+}
+
+/**
+ * Tooltip sur les étoiles de l'hôtel
+ */
+function initStarsTooltip() {
+    const starsContainer = document.querySelector('.stars');
+    if (!starsContainer) return;
+
+    starsContainer.title = 'Hôtel 5 étoiles';
+    starsContainer.style.cursor = 'help';
+}
+
+/**
+ * ===== NOUVELLES FONCTIONS UX PREMIUM =====
+ */
+
+/**
+ * Animation du compteur de sites comparés
+ */
+function initSitesComparison() {
+    const sitesCount = document.getElementById('sitesCount');
+    if (!sitesCount) return;
+
+    let count = 50;
+    const target = 247;
+    const duration = 2000;
+    const increment = (target - count) / (duration / 50);
+
+    const timer = setInterval(() => {
+        count += increment;
+        if (count >= target) {
+            count = target;
+            clearInterval(timer);
+        }
+        sitesCount.textContent = Math.floor(count);
+    }, 50);
+}
+
+/**
+ * Countdown timer pour offres limitées
+ */
+function initCountdownTimers() {
+    const timers = document.querySelectorAll('.countdown-timer');
+    
+    timers.forEach(timer => {
+        let minutes = 14;
+        let seconds = 32;
+        
+        setInterval(() => {
+            seconds--;
+            if (seconds < 0) {
+                seconds = 59;
+                minutes--;
+            }
+            if (minutes < 0) {
+                minutes = 0;
+                seconds = 0;
+            }
+            
+            timer.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Alerte visuelle quand moins de 5 minutes
+            if (minutes < 5) {
+                timer.parentElement.classList.add('bg-danger');
+                timer.parentElement.classList.remove('bg-warning');
+            }
+        }, 1000);
+    });
+}
+
+/**
+ * Animation de la barre de disponibilité
+ */
+function initAvailabilityAnimation() {
+    const progressBars = document.querySelectorAll('.availability-bar .progress-bar');
+    
+    progressBars.forEach(bar => {
+        const width = bar.style.width;
+        bar.style.width = '0';
+        
+        setTimeout(() => {
+            bar.style.transition = 'width 1.5s ease-out';
+            bar.style.width = width;
+        }, 500);
+    });
+}
+
+/**
+ * Bouton favori avec animation
+ */
+function initFavoriteButton() {
+    const favoriteBtn = document.querySelector('.favorite-btn');
+    if (!favoriteBtn) return;
+
+    favoriteBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        favoriteBtn.classList.toggle('active');
+        
+        // Animation du coeur
+        favoriteBtn.style.animation = 'none';
+        setTimeout(() => {
+            favoriteBtn.style.animation = 'heartBeat 0.5s ease';
+        }, 10);
+        
+        // Toast notification
+        showToast(
+            favoriteBtn.classList.contains('active') 
+                ? '❤️ Ajouté aux favoris' 
+                : 'Retiré des favoris',
+            favoriteBtn.classList.contains('active') ? 'success' : 'info'
+        );
+    });
+}
+
+/**
+ * Bouton partage avec menu dropdown
+ */
+function initShareButton() {
+    const shareBtn = document.querySelector('.share-btn');
+    if (!shareBtn) return;
+
+    shareBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: 'The Mirage Resort & Spa',
+                    text: 'Découvrez cet hôtel incroyable !',
+                    url: window.location.href
+                });
+                showToast('✅ Partagé avec succès !', 'success');
+            } catch (err) {
+                console.log('Partage annulé');
+            }
+        } else {
+            // Fallback : copier le lien
+            navigator.clipboard.writeText(window.location.href);
+            showToast('🔗 Lien copié dans le presse-papier', 'success');
+        }
+    });
+}
+
+/**
+ * Simulation de prix en temps réel
+ */
+function initRealtimePriceUpdates() {
+    const priceElements = document.querySelectorAll('.text-kayak-orange');
+    
+    setInterval(() => {
+        priceElements.forEach(priceEl => {
+            // Petit flicker pour simuler une mise à jour
+            priceEl.style.animation = 'priceUpdate 0.3s ease';
+            setTimeout(() => {
+                priceEl.style.animation = '';
+            }, 300);
+        });
+    }, 15000); // Toutes les 15 secondes
+}
+
+/**
+ * Animation des badges flottants
+ */
+function initFloatingBadges() {
+    const badges = document.querySelectorAll('.badge-float');
+    
+    badges.forEach((badge, index) => {
+        // Animation d'entrée décalée
+        badge.style.animationDelay = `${index * 0.15}s`;
+        
+        // Animation de hover infinie
+        setInterval(() => {
+            badge.style.animation = 'none';
+            setTimeout(() => {
+                badge.style.animation = `bounceSmall 0.6s ease ${index * 0.15}s`;
+            }, 10);
+        }, 5000 + (index * 500));
+    });
+}
+
+/**
+ * Tracker de consultations en temps réel
+ */
+function initRealTimeViewers() {
+    const viewersTexts = document.querySelectorAll('[class*="personnes regardent"]');
+    
+    viewersTexts.forEach(text => {
+        const updateViewers = () => {
+            const currentNumber = parseInt(text.textContent.match(/\d+/)[0]);
+            const change = Math.random() > 0.5 ? 1 : -1;
+            const newNumber = Math.max(5, Math.min(35, currentNumber + change));
+            
+            text.textContent = text.textContent.replace(/\d+/, newNumber);
+            
+            // Animation flash
+            text.style.color = '#ff8000';
+            setTimeout(() => {
+                text.style.color = '';
+            }, 300);
+        };
+        
+        setInterval(updateViewers, 8000);
+    });
+}
+
+/**
+ * Animation des cards au scroll
+ */
+function initRoomCardsAnimation() {
+    const cards = document.querySelectorAll('.room-card-enhanced');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }, index * 100);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+    
+    cards.forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(30px)';
+        card.style.transition = 'all 0.6s ease';
+        observer.observe(card);
+    });
+}
+
+/**
+ * Galerie d'images avec préchargement
+ */
+function initGalleryPreload() {
+    const galleryImages = document.querySelectorAll('[data-bs-toggle="modal"][data-bs-target="#galleryModal"]');
+    
+    galleryImages.forEach(img => {
+        img.addEventListener('click', () => {
+            // Animation de zoom
+            img.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                img.style.transform = '';
+            }, 200);
+        });
+    });
+}
+
+/**
+ * Toast notification helper
+ */
+function showToast(message, type = 'info') {
+    const toast = document.createElement('div');
+    toast.className = `toast-notification toast-${type}`;
+    toast.textContent = message;
+    toast.style.cssText = `
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        background: ${type === 'success' ? '#2ecc71' : type === 'danger' ? '#e74c3c' : '#3498db'};
+        color: white;
+        padding: 15px 25px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        z-index: 9999;
+        animation: slideInRight 0.3s ease, slideOutRight 0.3s ease 2.7s;
+        font-weight: 500;
+    `;
+    
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.remove();
+    }, 3000);
+}
+
+// Ajouter les animations CSS nécessaires
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes heartBeat {
+        0%, 100% { transform: scale(1); }
+        25% { transform: scale(1.3); }
+        50% { transform: scale(1.1); }
+        75% { transform: scale(1.25); }
+    }
+    
+    @keyframes priceUpdate {
+        0%, 100% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.05); opacity: 0.8; }
+    }
+    
+    @keyframes bounceSmall {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-5px); }
+    }
+    
+    @keyframes slideInRight {
+        from { transform: translateX(400px); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+    
+    @keyframes slideOutRight {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(400px); opacity: 0; }
+    }
+`;
+document.head.appendChild(style);
+
+/**
+ * Bouton "Afficher plus" pour les offres de chambres
+ */
+function initShowMoreRooms() {
+    const showMoreBtn = document.querySelector('.room-offers .btn-outline-primary:not(.w-100)');
+    if (!showMoreBtn) return;
+
+    let expanded = false;
+    const extraRooms = `
+        <div class="card mb-3 border-0 shadow-sm extra-room" style="display: none;">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <h5 class="fw-bold mb-2">Suite Junior</h5>
+                        <div class="d-flex gap-2 mb-2">
+                            <span class="badge bg-light text-dark"><i class="fas fa-coffee"></i> Petit-déjeuner gratuit</span>
+                            <span class="badge bg-info text-white"><i class="fas fa-hot-tub"></i> Jacuzzi</span>
+                        </div>
+                        <p class="text-muted small mb-0">Agoda</p>
+                    </div>
+                    <div class="col-md-3 text-end">
+                        <div class="text-muted small mb-1">À partir de</div>
+                        <div class="price-display">
+                            <span class="h3 fw-bold text-kayak-orange">125 €</span>
+                        </div>
+                        <div class="text-muted small">Avant taxes</div>
+                    </div>
+                    <div class="col-md-3 text-end">
+                        <button class="btn btn-primary w-100">Voir l'offre</button>
+                        <small class="text-muted d-block mt-2">Agoda</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    showMoreBtn.addEventListener('click', () => {
+        const roomOffersContainer = document.querySelector('.room-offers');
+        
+        if (!expanded) {
+            // Ajouter les chambres cachées
+            roomOffersContainer.insertAdjacentHTML('beforeend', extraRooms.repeat(2));
+            
+            // Animer l'apparition
+            setTimeout(() => {
+                document.querySelectorAll('.extra-room').forEach((room, index) => {
+                    setTimeout(() => {
+                        room.style.display = 'block';
+                        room.style.animation = 'fadeInUp 0.5s ease';
+                    }, index * 100);
+                });
+            }, 50);
+            
+            showMoreBtn.innerHTML = 'Masquer les offres <i class="fas fa-chevron-up"></i>';
+            expanded = true;
+        } else {
+            // Masquer les chambres supplémentaires
+            document.querySelectorAll('.extra-room').forEach(room => {
+                room.style.animation = 'fadeOut 0.3s ease';
+                setTimeout(() => room.remove(), 300);
+            });
+            
+            showMoreBtn.innerHTML = 'Afficher 5 autres tarifs de chambre <i class="fas fa-chevron-down"></i>';
+            expanded = false;
+        }
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     initQuickFilters();
     initLiveSearchCounter();
@@ -875,6 +1504,746 @@ document.addEventListener('DOMContentLoaded', () => {
     initProgressiveValidation();
     initAccessibilityAnnouncements();
     initPerformanceMonitoring();
+    
+    // Init fonctions page hotels.php - Basiques
+    initHotelDetailNav();
+    initPriceCalculator();
+    initReviewsAnimation();
+    initBreakfastFilter();
+    initReadMore();
+    initLiveViewersCounter();
+    initStarsTooltip();
+    initShowMoreRooms();
+    
+    // Init fonctions page hotels.php - PREMIUM UX
+    initSitesComparison();
+    initCountdownTimers();
+    initAvailabilityAnimation();
+    initFavoriteButton();
+    initShareButton();
+    initRealtimePriceUpdates();
+    initFloatingBadges();
+    initRealTimeViewers();
+    initRoomCardsAnimation();
+    initGalleryPreload();
+    
+    // Init fonctions MOBILE PREMIUM
+    initMobileCTA();
+    initMobileQuickActions();
+    initMobileScrollIndicators();
+    initTouchGestures();
+    initMobileSwipeGallery();
+    addBodyClassForMobile();
+    
+    // Message console amélioré
+    console.log('%c🎨 HOTELS.PHP - PREMIUM UX ACTIVÉ', 'color: #ff8000; font-size: 16px; font-weight: bold;');
+    console.log('%c✨ Toutes les micro-interactions sont actives', 'color: #2ecc71; font-size: 12px;');
+    console.log('%c📱 Mobile Premium UX activé', 'color: #3498db; font-size: 12px;');
+});
+
+// ========================================
+// MOBILE PREMIUM UX FUNCTIONS
+// ========================================
+
+/**
+ * Ajouter classe body pour styling mobile
+ */
+function addBodyClassForMobile() {
+    if (document.querySelector('.mobile-cta-bar')) {
+        document.body.classList.add('hotel-page');
+    }
+}
+
+/**
+ * Mobile CTA Bar - Scroll to rooms
+ */
+function initMobileCTA() {
+    const mobileCTABtn = document.getElementById('mobileCTABtn');
+    if (!mobileCTABtn) return;
+
+    mobileCTABtn.addEventListener('click', () => {
+        const roomsSection = document.getElementById('rooms');
+        if (roomsSection) {
+            roomsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            
+            // Animation haptic feedback
+            mobileCTABtn.style.animation = 'pulse 0.3s ease';
+            setTimeout(() => {
+                mobileCTABtn.style.animation = '';
+            }, 300);
+            
+            // Toast
+            showToast('📋 Comparaison des offres...', 'info');
+        }
+    });
+
+    // Update price dynamically
+    window.addEventListener('scroll', () => {
+        const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+        
+        if (scrollPercent > 20 && scrollPercent < 80) {
+            mobileCTABtn.innerHTML = '<i class="fas fa-check-circle me-2"></i> Réserver maintenant';
+        } else {
+            mobileCTABtn.innerHTML = '<i class="fas fa-search me-2"></i> Voir les offres';
+        }
+    });
+}
+
+/**
+ * Mobile Quick Actions Buttons
+ */
+function initMobileQuickActions() {
+    const shareBtn = document.getElementById('mobileShareBtn');
+    const favoriteBtn = document.getElementById('mobileFavoriteBtn');
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+    // Share button
+    if (shareBtn) {
+        shareBtn.addEventListener('click', async () => {
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: 'The Mirage Resort & Spa',
+                        text: 'Découvrez cet hôtel incroyable !',
+                        url: window.location.href
+                    });
+                    showToast('✅ Partagé avec succès !', 'success');
+                } catch (err) {
+                    console.log('Partage annulé');
+                }
+            } else {
+                navigator.clipboard.writeText(window.location.href);
+                showToast('🔗 Lien copié !', 'success');
+            }
+            
+            // Haptic feedback simulation
+            shareBtn.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                shareBtn.style.transform = '';
+            }, 100);
+        });
+    }
+
+    // Favorite button
+    if (favoriteBtn) {
+        favoriteBtn.addEventListener('click', () => {
+            favoriteBtn.classList.toggle('active');
+            
+            const icon = favoriteBtn.querySelector('i');
+            if (favoriteBtn.classList.contains('active')) {
+                icon.className = 'fas fa-heart';
+                showToast('❤️ Ajouté aux favoris', 'success');
+            } else {
+                icon.className = 'far fa-heart';
+                showToast('Retiré des favoris', 'info');
+            }
+            
+            // Animation
+            favoriteBtn.style.animation = 'heartBeat 0.5s ease';
+            setTimeout(() => {
+                favoriteBtn.style.animation = '';
+            }, 500);
+        });
+    }
+
+    // Scroll to top button
+    if (scrollTopBtn) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            
+            // Haptic feedback
+            scrollTopBtn.style.transform = 'scale(0.8)';
+            setTimeout(() => {
+                scrollTopBtn.style.transform = '';
+            }, 150);
+        });
+    }
+}
+
+/**
+ * Mobile Scroll Indicators for horizontal sections
+ */
+function initMobileScrollIndicators() {
+    if (window.innerWidth > 768) return;
+
+    const horizontalSections = [
+        document.querySelector('.quick-features'),
+        document.querySelector('.activities-section .row')
+    ];
+
+    horizontalSections.forEach(section => {
+        if (!section) return;
+
+        let isScrolling;
+        section.addEventListener('scroll', () => {
+            section.style.opacity = '0.7';
+            
+            clearTimeout(isScrolling);
+            isScrolling = setTimeout(() => {
+                section.style.opacity = '1';
+            }, 150);
+        });
+
+        // Add scroll hint animation
+        if (section.scrollWidth > section.clientWidth) {
+            section.style.position = 'relative';
+            
+            const hint = document.createElement('div');
+            hint.className = 'scroll-hint';
+            hint.innerHTML = '→';
+            hint.style.cssText = `
+                position: absolute;
+                right: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+                background: rgba(255,127,0,0.9);
+                color: white;
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: bold;
+                animation: bounceRight 1s infinite;
+                pointer-events: none;
+                z-index: 10;
+            `;
+            
+            section.appendChild(hint);
+            
+            // Hide hint after first scroll
+            section.addEventListener('scroll', () => {
+                hint.style.display = 'none';
+            }, { once: true });
+        }
+    });
+
+    // Add bounce animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes bounceRight {
+            0%, 100% { transform: translateY(-50%) translateX(0); }
+            50% { transform: translateY(-50%) translateX(5px); }
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+/**
+ * Touch Gestures - Swipe et Long Press
+ */
+function initTouchGestures() {
+    if (window.innerWidth > 768) return;
+
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchStartTime = 0;
+
+    // Swipe gesture pour naviguer entre sections
+    document.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        touchStartTime = Date.now();
+    });
+
+    document.addEventListener('touchend', (e) => {
+        const touchEndX = e.changedTouches[0].clientX;
+        const touchEndY = e.changedTouches[0].clientY;
+        const touchDuration = Date.now() - touchStartTime;
+        
+        const deltaX = touchEndX - touchStartX;
+        const deltaY = touchEndY - touchStartY;
+
+        // Swipe horizontal (min 100px, max 500ms)
+        if (Math.abs(deltaX) > 100 && Math.abs(deltaY) < 50 && touchDuration < 500) {
+            if (deltaX > 0) {
+                // Swipe right
+                console.log('Swipe right detected');
+            } else {
+                // Swipe left
+                console.log('Swipe left detected');
+            }
+        }
+    });
+
+    // Long press sur images pour partager
+    const images = document.querySelectorAll('.gallery-img, .activity-image img');
+    images.forEach(img => {
+        let longPressTimer;
+        
+        img.addEventListener('touchstart', () => {
+            longPressTimer = setTimeout(() => {
+                // Vibration si disponible
+                if (navigator.vibrate) {
+                    navigator.vibrate(50);
+                }
+                showToast('📸 Image sauvegardée', 'success');
+            }, 800);
+        });
+        
+        img.addEventListener('touchend', () => {
+            clearTimeout(longPressTimer);
+        });
+        
+        img.addEventListener('touchmove', () => {
+            clearTimeout(longPressTimer);
+        });
+    });
+}
+
+/**
+ * Mobile Swipe Gallery avec Hammer.js like behavior
+ */
+function initMobileSwipeGallery() {
+    if (window.innerWidth > 768) return;
+
+    const galleryRow = document.querySelector('.hotel-hero .row.g-1');
+    if (!galleryRow) return;
+
+    let startX = 0;
+    let scrollLeft = 0;
+    let isDown = false;
+
+    // Make gallery images swipeable
+    const galleryImages = galleryRow.querySelectorAll('.col-6');
+    galleryImages.forEach((col, index) => {
+        col.style.transition = 'transform 0.3s ease';
+        
+        col.addEventListener('touchstart', (e) => {
+            isDown = true;
+            startX = e.touches[0].pageX;
+        });
+        
+        col.addEventListener('touchmove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.touches[0].pageX;
+            const walk = (x - startX) * 2;
+            col.style.transform = `translateX(${walk}px)`;
+        });
+        
+        col.addEventListener('touchend', () => {
+            isDown = false;
+            col.style.transform = 'translateX(0)';
+        });
+    });
+}
+
+/**
+ * Performance: Lazy load images on mobile
+ */
+function initMobileLazyLoad() {
+    if (window.innerWidth > 768) return;
+    if ('IntersectionObserver' in window) {
+        const imageObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    if (img.dataset.src) {
+                        img.src = img.dataset.src;
+                        img.classList.remove('skeleton-loader');
+                        imageObserver.unobserve(img);
+                    }
+                }
+            });
+        }, { rootMargin: '50px' });
+
+        document.querySelectorAll('img[data-src]').forEach(img => {
+            img.classList.add('skeleton-loader');
+            imageObserver.observe(img);
+        });
+    }
+}
+
+/* ============================================
+   INDEX.PHP - MOBILE PREMIUM FEATURES
+   ============================================ */
+
+/**
+ * Hero Stats Auto-Carousel Mobile
+ */
+function initHomeHeroStatsCarousel() {
+    if (window.innerWidth > 768) return;
+    
+    const statsContainer = document.querySelector('.hero-stats');
+    if (!statsContainer) return;
+    
+    let currentIndex = 0;
+    const stats = statsContainer.querySelectorAll('.stat-item');
+    const statCount = stats.length;
+    
+    // Auto-scroll every 3 seconds
+    setInterval(() => {
+        currentIndex = (currentIndex + 1) % statCount;
+        const scrollPosition = stats[currentIndex].offsetLeft - 15; // 15px padding
+        
+        statsContainer.scrollTo({
+            left: scrollPosition,
+            behavior: 'smooth'
+        });
+    }, 3000);
+    
+    // Vibrate on manual scroll
+    statsContainer.addEventListener('scroll', () => {
+        if (navigator.vibrate) {
+            navigator.vibrate(5);
+        }
+    });
+}
+
+/**
+ * Mobile Search Form Enhancements
+ */
+function initMobileSearchForm() {
+    if (window.innerWidth > 768) return;
+    
+    const searchForm = document.querySelector('.search-form-premium');
+    if (!searchForm) return;
+    
+    // Add ripple effect on input click
+    const inputGroups = searchForm.querySelectorAll('.search-input-group');
+    inputGroups.forEach(group => {
+        group.addEventListener('click', function(e) {
+            const ripple = document.createElement('span');
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.cssText = `
+                position: absolute;
+                width: ${size}px;
+                height: ${size}px;
+                border-radius: 50%;
+                background: rgba(255, 128, 0, 0.2);
+                left: ${x}px;
+                top: ${y}px;
+                transform: scale(0);
+                animation: ripple 0.6s ease-out;
+                pointer-events: none;
+            `;
+            
+            this.style.position = 'relative';
+            this.style.overflow = 'hidden';
+            this.appendChild(ripple);
+            
+            setTimeout(() => ripple.remove(), 600);
+        });
+    });
+    
+    // Add ripple animation
+    if (!document.querySelector('#rippleAnimation')) {
+        const style = document.createElement('style');
+        style.id = 'rippleAnimation';
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+    
+    // Enhance dropdown behavior for mobile
+    const guestsDropdown = document.querySelector('.guests-dropdown');
+    if (guestsDropdown) {
+        // Add backdrop for mobile dropdown
+        const backdrop = document.createElement('div');
+        backdrop.className = 'mobile-dropdown-backdrop';
+        backdrop.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 9999;
+            display: none;
+            backdrop-filter: blur(2px);
+        `;
+        document.body.appendChild(backdrop);
+        
+        // Show/hide backdrop with dropdown (only on mobile)
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.attributeName === 'class') {
+                    const isShown = guestsDropdown.classList.contains('show');
+                    // Only show backdrop on mobile screens
+                    if (window.innerWidth <= 768) {
+                        backdrop.style.display = isShown ? 'block' : 'none';
+                        if (isShown && navigator.vibrate) {
+                            navigator.vibrate(10);
+                        }
+                    }
+                }
+            });
+        });
+        
+        observer.observe(guestsDropdown, { attributes: true });
+        
+        // Close on backdrop click
+        backdrop.addEventListener('click', () => {
+            guestsDropdown.classList.remove('show');
+        });
+    }
+}
+
+/**
+ * Partners Swipe Carousel with Indicators
+ */
+function initPartnersSwipe() {
+    if (window.innerWidth > 768) return;
+    
+    const partnersRow = document.querySelector('.partners-section .row.g-3');
+    if (!partnersRow) return;
+    
+    // Add scroll indicator
+    const indicator = document.createElement('div');
+    indicator.className = 'partners-scroll-indicator';
+    indicator.style.cssText = `
+        position: absolute;
+        bottom: 5px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 6px;
+        z-index: 10;
+    `;
+    
+    const partnerLogos = partnersRow.querySelectorAll('.partner-logo');
+    const dotCount = Math.min(5, Math.ceil(partnerLogos.length / 2));
+    
+    for (let i = 0; i < dotCount; i++) {
+        const dot = document.createElement('div');
+        dot.style.cssText = `
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: ${i === 0 ? '#ff8000' : '#ddd'};
+            transition: all 0.3s ease;
+        `;
+        indicator.appendChild(dot);
+    }
+    
+    partnersRow.parentElement.style.position = 'relative';
+    partnersRow.parentElement.appendChild(indicator);
+    
+    // Update indicator on scroll
+    partnersRow.addEventListener('scroll', () => {
+        const scrollPercentage = partnersRow.scrollLeft / (partnersRow.scrollWidth - partnersRow.clientWidth);
+        const activeDot = Math.floor(scrollPercentage * dotCount);
+        
+        indicator.querySelectorAll('div').forEach((dot, index) => {
+            dot.style.background = index === activeDot ? '#ff8000' : '#ddd';
+            dot.style.width = index === activeDot ? '20px' : '6px';
+        });
+    });
+}
+
+/**
+ * Destinations Swipe with Progress Bar
+ */
+function initDestinationsSwipe() {
+    if (window.innerWidth > 768) return;
+    
+    const destRow = document.querySelector('.destinations-section .row.g-4');
+    if (!destRow) return;
+    
+    // Add progress bar
+    const progressBar = document.createElement('div');
+    progressBar.style.cssText = `
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 3px;
+        background: #ff8000;
+        width: 0;
+        transition: width 0.1s ease;
+        z-index: 10;
+    `;
+    
+    destRow.parentElement.style.position = 'relative';
+    destRow.parentElement.appendChild(progressBar);
+    
+    // Update progress on scroll
+    destRow.addEventListener('scroll', () => {
+        const scrollPercentage = (destRow.scrollLeft / (destRow.scrollWidth - destRow.clientWidth)) * 100;
+        progressBar.style.width = scrollPercentage + '%';
+        
+        // Haptic feedback at 50%
+        if (scrollPercentage > 48 && scrollPercentage < 52 && navigator.vibrate) {
+            navigator.vibrate(5);
+        }
+    });
+}
+
+/**
+ * Mobile FAB (Floating Action Button) - Quick Search
+ */
+function initMobileFAB() {
+    if (window.innerWidth > 768) return;
+    
+    // Check if we're on homepage
+    const searchForm = document.querySelector('.search-form-premium');
+    if (!searchForm) return;
+    
+    // Create FAB
+    const fab = document.createElement('button');
+    fab.className = 'mobile-fab';
+    fab.innerHTML = '<i class="fas fa-search"></i>';
+    fab.setAttribute('aria-label', 'Recherche rapide');
+    
+    // Hide FAB initially
+    fab.style.transform = 'scale(0)';
+    document.body.appendChild(fab);
+    
+    // Show FAB when scrolled past hero
+    let lastScroll = 0;
+    window.addEventListener('scroll', () => {
+        const currentScroll = window.pageYOffset;
+        const heroHeight = document.querySelector('.hero-section')?.offsetHeight || 600;
+        
+        if (currentScroll > heroHeight && currentScroll > lastScroll) {
+            // Scrolling down, past hero - show FAB
+            fab.style.transform = 'scale(1)';
+        } else if (currentScroll < heroHeight / 2) {
+            // Near top - hide FAB
+            fab.style.transform = 'scale(0)';
+        }
+        
+        lastScroll = currentScroll;
+    });
+    
+    // Click FAB to scroll to search form
+    fab.addEventListener('click', () => {
+        if (navigator.vibrate) {
+            navigator.vibrate(20);
+        }
+        
+        searchForm.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+        });
+        
+        // Focus first input after scroll
+        setTimeout(() => {
+            const firstInput = searchForm.querySelector('input, select');
+            if (firstInput) {
+                firstInput.focus();
+            }
+        }, 500);
+    });
+}
+
+/**
+ * Home Mobile Gestures - Pull to refresh hint
+ */
+function initHomeMobileGestures() {
+    if (window.innerWidth > 768) return;
+    
+    let touchStartY = 0;
+    let pullDistance = 0;
+    
+    // Pull-to-refresh hint (visual only)
+    const refreshHint = document.createElement('div');
+    refreshHint.style.cssText = `
+        position: fixed;
+        top: -50px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(255,128,0,0.95);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 0 0 20px 20px;
+        font-size: 14px;
+        transition: top 0.3s ease;
+        z-index: 9999;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    `;
+    refreshHint.innerHTML = '<i class="fas fa-sync-alt me-2"></i>Glissez pour actualiser';
+    document.body.appendChild(refreshHint);
+    
+    document.addEventListener('touchstart', (e) => {
+        if (window.pageYOffset === 0) {
+            touchStartY = e.touches[0].clientY;
+        }
+    });
+    
+    document.addEventListener('touchmove', (e) => {
+        if (window.pageYOffset === 0 && touchStartY > 0) {
+            pullDistance = e.touches[0].clientY - touchStartY;
+            
+            if (pullDistance > 0 && pullDistance < 100) {
+                refreshHint.style.top = Math.min(pullDistance - 50, 0) + 'px';
+            }
+        }
+    });
+    
+    document.addEventListener('touchend', () => {
+        if (pullDistance > 80) {
+            // Show refresh message
+            refreshHint.style.top = '0px';
+            refreshHint.innerHTML = '<i class="fas fa-check-circle me-2"></i>Déjà à jour!';
+            
+            setTimeout(() => {
+                refreshHint.style.top = '-50px';
+                setTimeout(() => {
+                    refreshHint.innerHTML = '<i class="fas fa-sync-alt me-2"></i>Glissez pour actualiser';
+                }, 300);
+            }, 2000);
+        } else {
+            refreshHint.style.top = '-50px';
+        }
+        
+        touchStartY = 0;
+        pullDistance = 0;
+    });
+}
+
+/**
+ * Initialize all mobile features for homepage
+ */
+function initHomepageMobile() {
+    if (window.innerWidth <= 768) {
+        initHomeHeroStatsCarousel();
+        initMobileSearchForm();
+        initPartnersSwipe();
+        initDestinationsSwipe();
+        initMobileFAB();
+        initHomeMobileGestures();
+        
+        console.log('%c✅ Homepage Mobile Features Initialized', 'color: #2ecc71; font-weight: bold;');
+    }
+}
+
+// Initialize homepage mobile features on load
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHomepageMobile);
+} else {
+    initHomepageMobile();
+}
+
+// Reinitialize on resize (orientation change)
+let resizeTimer;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+        initHomepageMobile();
+    }, 250);
 });
 
 // Console Welcome Message
