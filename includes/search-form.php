@@ -1,14 +1,39 @@
     <!-- Hero Section with Search Form -->
     <section class="hero-section py-5">
         <div class="container py-4">
-            <!-- Premium Title -->
-            <div class="text-center mb-4">
-                <h1 class="hero-title text-white fw-bold mb-2" style="font-size: 2.5rem; text-shadow: 0 2px 12px rgba(0,0,0,0.3);">
+            <!-- Premium Title with Animation -->
+            <div class="text-center mb-4 hero-content-animated">
+                <h1 class="hero-title text-white fw-bold mb-3 position-relative d-inline-block" style="font-size: 2.75rem; text-shadow: 0 2px 12px rgba(0,0,0,0.3); animation: fadeInUp 0.8s ease-out;">
                     Trouvez l'hôtel de vos rêves
+                    <span class="title-underline"></span>
                 </h1>
-                <p class="text-white-90 fs-5 mb-0" style="text-shadow: 0 1px 8px rgba(0,0,0,0.2);">
+                <p class="text-white-90 fs-5 mb-2" style="text-shadow: 0 1px 8px rgba(0,0,0,0.2); animation: fadeInUp 0.8s ease-out 0.2s backwards;">
                     Comparez des millions d'offres en quelques secondes
                 </p>
+                <div class="hero-trust-badge" style="animation: fadeInUp 0.8s ease-out 0.3s backwards;">
+                    <i class="fas fa-shield-check me-2"></i>
+                    <span>Réservation 100% sécurisée</span>
+                    <span class="mx-2">•</span>
+                    <i class="fas fa-credit-card me-2"></i>
+                    <span>Annulation gratuite</span>
+                    <span class="mx-2">•</span>
+                    <i class="fas fa-headset me-2"></i>
+                    <span>Support 24/7</span>
+                </div>
+                <div class="hero-stats d-flex justify-content-center gap-4 mt-3" style="animation: fadeInUp 0.8s ease-out 0.4s backwards;">
+                    <div class="stat-item text-white">
+                        <i class="fas fa-hotel me-2"></i>
+                        <span class="fw-bold">2M+</span> hôtels
+                    </div>
+                    <div class="stat-item text-white">
+                        <i class="fas fa-globe me-2"></i>
+                        <span class="fw-bold">190+</span> pays
+                    </div>
+                    <div class="stat-item text-white">
+                        <i class="fas fa-star me-2"></i>
+                        <span class="fw-bold">50M+</span> avis
+                    </div>
+                </div>
             </div>
 
             <!-- Premium Search Form -->
@@ -119,30 +144,64 @@
                         
                         <!-- Premium Search Button -->
                         <div class="search-button-wrapper">
-                            <button type="submit" class="btn-search-premium">
+                            <button type="submit" class="btn-search-premium position-relative">
                                 <i class="fas fa-search me-2"></i>
                                 <span>Rechercher</span>
+                                <span class="search-pulse-indicator"></span>
+                                <span class="btn-shine"></span>
                             </button>
+                            <div class="search-hint text-center mt-2">
+                                <small class="text-white-80">
+                                    <i class="fas fa-bolt text-warning me-1"></i>
+                                    <span class="searches-count">1,247</span> recherches aujourd'hui
+                                </small>
+                            </div>
                         </div>
                     </div>
                 </form>
             </div>
 
-            <!-- Quick Filters (Optional Premium Feature) -->
-            <div class="text-center mt-3">
+            <!-- Quick Filters Enhanced -->
+            <div class="text-center mt-4">
+                <p class="text-white-80 mb-3 small">
+                    <i class="fas fa-filter me-1"></i> Filtres populaires
+                    <span class="trending-indicator ms-2">
+                        <i class="fas fa-fire text-danger"></i>
+                        <span class="trending-text">Tendances</span>
+                    </span>
+                </p>
                 <div class="quick-filters">
-                    <button class="quick-filter-btn">
+                    <button class="quick-filter-btn" data-filter="wifi">
                         <i class="fas fa-wifi me-1"></i> WiFi gratuit
+                        <span class="filter-badge">87%</span>
                     </button>
-                    <button class="quick-filter-btn">
+                    <button class="quick-filter-btn" data-filter="pool">
                         <i class="fas fa-swimmer me-1"></i> Piscine
+                        <span class="filter-badge">64%</span>
                     </button>
-                    <button class="quick-filter-btn">
+                    <button class="quick-filter-btn" data-filter="parking">
                         <i class="fas fa-parking me-1"></i> Parking
+                        <span class="filter-badge">72%</span>
                     </button>
-                    <button class="quick-filter-btn">
+                    <button class="quick-filter-btn" data-filter="pets">
                         <i class="fas fa-paw me-1"></i> Animaux acceptés
+                        <span class="filter-badge">32%</span>
                     </button>
+                    <button class="quick-filter-btn" data-filter="breakfast">
+                        <i class="fas fa-coffee me-1"></i> Petit-déjeuner
+                        <span class="filter-badge">55%</span>
+                    </button>
+                    <button class="quick-filter-btn filter-new" data-filter="spa">
+                        <i class="fas fa-spa me-1"></i> Spa & Bien-être
+                        <span class="filter-badge">41%</span>
+                        <span class="new-badge">NEW</span>
+                    </button>
+                </div>
+                <div class="filter-helper-text mt-3">
+                    <small class="text-white-80">
+                        <i class="fas fa-lightbulb me-1"></i>
+                        <span class="filter-tip">Astuce : Combinez plusieurs filtres pour des résultats personnalisés</span>
+                    </small>
                 </div>
             </div>
         </div>
