@@ -575,66 +575,6 @@ function initSearchButtonLoader() {
 }
 
 // Enhanced Quick Filters Interaction
-function initQuickFilters() {
-    const filterButtons = document.querySelectorAll('.quick-filter-btn');
-    const selectedFilters = new Set();
-    
-    filterButtons.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            const filter = btn.getAttribute('data-filter');
-            
-            // Toggle selection
-            if (selectedFilters.has(filter)) {
-                selectedFilters.delete(filter);
-                btn.classList.remove('filter-active');
-            } else {
-                selectedFilters.add(filter);
-                btn.classList.add('filter-active');
-            }
-            
-            // Add ripple effect
-            const ripple = document.createElement('span');
-            ripple.classList.add('filter-ripple');
-            btn.appendChild(ripple);
-            
-            setTimeout(() => ripple.remove(), 600);
-            
-            // Update form with selected filters
-            console.log('Filtres actifs:', Array.from(selectedFilters));
-            
-            // Show toast notification
-            showFilterToast(filter, selectedFilters.has(filter));
-        });
-    });
-}
-
-function showFilterToast(filter, isAdded) {
-    const filterNames = {
-        'wifi': 'WiFi gratuit',
-        'pool': 'Piscine',
-        'parking': 'Parking',
-        'pets': 'Animaux acceptés',
-        'breakfast': 'Petit-déjeuner',
-        'spa': 'Spa & Bien-être'
-    };
-    
-    const toast = document.createElement('div');
-    toast.className = 'filter-toast';
-    toast.innerHTML = `
-        <i class="fas fa-${isAdded ? 'check-circle' : 'times-circle'} me-2"></i>
-        ${filterNames[filter]} ${isAdded ? 'ajouté' : 'retiré'}
-    `;
-    
-    document.body.appendChild(toast);
-    
-    setTimeout(() => toast.classList.add('show'), 10);
-    setTimeout(() => {
-        toast.classList.remove('show');
-        setTimeout(() => toast.remove(), 300);
-    }, 2000);
-}
-
 // Live Search Counter Animation
 function initLiveSearchCounter() {
     const counterElement = document.querySelector('.searches-count');
@@ -664,50 +604,6 @@ function initHeroStatsAnimation() {
     stats.forEach((stat, index) => {
         stat.style.setProperty('--animation-delay', `${index * 0.2}s`);
     });
-}
-
-// Trust Badge Rotation
-function initTrustBadgeRotation() {
-    const badges = [
-        { icon: 'shield-check', text: 'Réservation 100% sécurisée' },
-        { icon: 'credit-card', text: 'Paiement sécurisé SSL' },
-        { icon: 'undo', text: 'Annulation gratuite' },
-        { icon: 'headset', text: 'Support 24/7' },
-        { icon: 'award', text: 'Meilleur prix garanti' },
-        { icon: 'lock', text: 'Vos données protégées' }
-    ];
-    
-    const badgeElement = document.querySelector('.hero-trust-badge');
-    if (!badgeElement) return;
-    
-    let currentIndex = 0;
-    
-    setInterval(() => {
-        badgeElement.classList.add('badge-fade-out');
-        
-        setTimeout(() => {
-            currentIndex = (currentIndex + 1) % badges.length;
-            const badge = badges[currentIndex];
-            
-            const content = Array.from(badgeElement.children);
-            let textIndex = 0;
-            
-            content.forEach((child, idx) => {
-                if (child.tagName === 'I' && idx % 2 === 0) {
-                    child.className = `fas fa-${badge.icon}`;
-                } else if (child.tagName === 'SPAN' && !child.classList.contains('mx-2')) {
-                    if (textIndex === Math.floor(idx / 2)) {
-                        child.textContent = badge.text;
-                        textIndex++;
-                    }
-                }
-            });
-            
-            badgeElement.classList.remove('badge-fade-out');
-            badgeElement.classList.add('badge-fade-in');
-            setTimeout(() => badgeElement.classList.remove('badge-fade-in'), 300);
-        }, 300);
-    }, 4000); // Rotate every 4 seconds
 }
 
 // Destination Input Smart Suggestions
@@ -844,15 +740,6 @@ function initAccessibilityAnnouncements() {
     liveRegion.className = 'sr-only';
     liveRegion.id = 'a11y-announcer';
     document.body.appendChild(liveRegion);
-    
-    // Announce when filters are selected
-    const filterButtons = document.querySelectorAll('.quick-filter-btn');
-    filterButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const filterName = btn.textContent.trim().split('\n')[0];
-            announceToScreenReader(`Filtre ${filterName} ${btn.classList.contains('filter-active') ? 'activé' : 'désactivé'}`);
-        });
-    });
 }
 
 function announceToScreenReader(message) {
@@ -1445,10 +1332,8 @@ function initShowMoreRooms() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    initQuickFilters();
     initLiveSearchCounter();
     initHeroStatsAnimation();
-    initTrustBadgeRotation();
     enhanceDestinationInput();
     initPartnerCounter();
     initKeyboardShortcuts();
@@ -1930,31 +1815,103 @@ function initPartnersSwipe() {
 }
 
 /**
- * Destinations Swipe with Progress Bar
+ * Destinations Swipe with Progress Bar and Scroll Hint
  */
 function initDestinationsSwipe() {
     if (window.innerWidth > 768) return;
     
-    const destRow = document.querySelector('.destinations-section .row.g-4');
-    if (!destRow) return;
+    const destGrid = document.querySelector('.destinations-grid');
+    const scrollHint = document.querySelector('.destinations-scroll-hint');
+    if (!destGrid) return;
     
     // Add progress bar
     const progressBar = document.createElement('div');
     progressBar.className = 'destinations-progress-bar';
     
-    destRow.parentElement.style.position = 'relative';
-    destRow.parentElement.appendChild(progressBar);
+    destGrid.parentElement.style.position = 'relative';
+    destGrid.parentElement.appendChild(progressBar);
+    
+    let hasScrolled = false;
     
     // Update progress on scroll
-    destRow.addEventListener('scroll', () => {
-        const scrollPercentage = (destRow.scrollLeft / (destRow.scrollWidth - destRow.clientWidth)) * 100;
+    destGrid.addEventListener('scroll', () => {
+        const scrollPercentage = (destGrid.scrollLeft / (destGrid.scrollWidth - destGrid.clientWidth)) * 100;
         progressBar.style.setProperty('--progress-width', scrollPercentage + '%');
+        
+        // Hide scroll hint after first scroll
+        if (!hasScrolled && destGrid.scrollLeft > 10) {
+            hasScrolled = true;
+            destGrid.classList.add('scrolled');
+            if (scrollHint) {
+                scrollHint.style.opacity = '0';
+                scrollHint.style.visibility = 'hidden';
+            }
+        }
         
         // Haptic feedback at 50%
         if (scrollPercentage > 48 && scrollPercentage < 52 && navigator.vibrate) {
             navigator.vibrate(5);
         }
-    });
+    }, { passive: true });
+    
+    // Auto-hide scroll hint after 3 seconds
+    setTimeout(() => {
+        if (scrollHint && !hasScrolled) {
+            scrollHint.style.transition = 'opacity 0.5s ease, visibility 0.5s ease';
+            scrollHint.style.opacity = '0';
+            scrollHint.style.visibility = 'hidden';
+        }
+    }, 3000);
+}
+
+/**
+ * Special Offers Swipe with Progress Bar and Scroll Hint
+ */
+function initSpecialOffersSwipe() {
+    if (window.innerWidth > 768) return;
+    
+    const offersGrid = document.querySelector('.offers-grid');
+    const scrollHint = document.querySelector('.offers-scroll-hint');
+    if (!offersGrid) return;
+    
+    // Add progress bar
+    const progressBar = document.createElement('div');
+    progressBar.className = 'offers-progress-bar';
+    
+    offersGrid.parentElement.style.position = 'relative';
+    offersGrid.parentElement.appendChild(progressBar);
+    
+    let hasScrolled = false;
+    
+    // Update progress on scroll
+    offersGrid.addEventListener('scroll', () => {
+        const scrollPercentage = (offersGrid.scrollLeft / (offersGrid.scrollWidth - offersGrid.clientWidth)) * 100;
+        progressBar.style.setProperty('--progress-width', scrollPercentage + '%');
+        
+        // Hide scroll hint after first scroll
+        if (!hasScrolled && offersGrid.scrollLeft > 10) {
+            hasScrolled = true;
+            offersGrid.classList.add('scrolled');
+            if (scrollHint) {
+                scrollHint.style.opacity = '0';
+                scrollHint.style.visibility = 'hidden';
+            }
+        }
+        
+        // Haptic feedback at 50%
+        if (scrollPercentage > 48 && scrollPercentage < 52 && navigator.vibrate) {
+            navigator.vibrate(5);
+        }
+    }, { passive: true });
+    
+    // Auto-hide scroll hint after 3 seconds
+    setTimeout(() => {
+        if (scrollHint && !hasScrolled) {
+            scrollHint.style.transition = 'opacity 0.5s ease, visibility 0.5s ease';
+            scrollHint.style.opacity = '0';
+            scrollHint.style.visibility = 'hidden';
+        }
+    }, 3000);
 }
 
 /**
@@ -2200,10 +2157,12 @@ if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
         initHomepageMobile();
         initMobileFilters(); // Initialize search page mobile filters
+        initSpecialOffersSwipe(); // Initialize special offers carousel
     });
 } else {
     initHomepageMobile();
     initMobileFilters(); // Initialize search page mobile filters
+    initSpecialOffersSwipe(); // Initialize special offers carousel
 }
 
 // Reinitialize on resize (orientation change)
@@ -2213,6 +2172,7 @@ window.addEventListener('resize', () => {
     resizeTimer = setTimeout(() => {
         initHomepageMobile();
         initMobileFilters();
+        initSpecialOffersSwipe();
     }, 250);
 });
 

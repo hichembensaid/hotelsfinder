@@ -1,12 +1,17 @@
     <!-- Popular Destinations -->
-    <section class="py-5">
+    <section class="py-5 destinations-section">
         <div class="container">
             <div class="text-center mb-5">
                 <h2 class="fs-3 fw-normal mb-3">Destinations populaires</h2>
                 <p class="text-muted mb-0">Découvrez les villes les plus recherchées</p>
             </div>
             
-            <div class="row g-4">
+            <!-- Scroll Hint for Mobile -->
+            <div class="destinations-scroll-hint d-lg-none">
+                <i class="fas fa-chevron-right"></i>
+            </div>
+            
+            <div class="row g-4 destinations-grid">
                 <div class="col-12 col-sm-6 col-lg-3">
                     <div class="card destination-card border-0 shadow-sm rounded-3 overflow-hidden h-100 position-relative">
                         <span class="badge bg-danger position-absolute top-0 end-0 m-3 z-3">-25%</span>

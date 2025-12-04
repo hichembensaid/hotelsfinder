@@ -1,9 +1,14 @@
     <!-- Special Offers (Trivago Style) -->
-    <section class="py-5 bg-light">
+    <section class="py-5 bg-light special-offers-section">
         <div class="container">
             <h2 class="fs-3 fw-normal mb-4">Les offres d'hôtels spéciales du moment</h2>
             
-            <div class="row g-3">
+            <!-- Scroll Hint for Mobile -->
+            <div class="offers-scroll-hint d-lg-none">
+                <i class="fas fa-chevron-right"></i>
+            </div>
+            
+            <div class="row g-3 offers-grid">
                 <div class="col-12 col-sm-6 col-lg-3">
                     <a href="#" class="text-decoration-none">
                         <div class="card border-0 h-100 hover-shadow">
