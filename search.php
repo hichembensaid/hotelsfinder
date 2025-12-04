@@ -230,11 +230,20 @@ include 'includes/header.php';
                                             <!-- Hotel Name & Rating -->
                                             <div class="kayak-name-section mb-0">
                                                 <div class="kayak-name-location">
-                                                    <h2 class="kayak-hotel-name mb-0">
-                                                        <a href="#" class="kayak-name-link" target="_blank" itemprop="name">
-                                                            Iberostar Waves Averroes
-                                                        </a>
-                                                    </h2>
+                                                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                                                        <h2 class="kayak-hotel-name mb-0">
+                                                            <a href="#" class="kayak-name-link" target="_blank" itemprop="name">
+                                                                Iberostar Waves Averroes
+                                                            </a>
+                                                        </h2>
+                                                        <!-- Rating & Stars -->
+                                                        <div class="stars-kayak">
+                                                            <i class="fas fa-star"></i>
+                                                            <i class="fas fa-star"></i>
+                                                            <i class="fas fa-star"></i>
+                                                            <i class="fas fa-star"></i>
+                                                        </div>
+                                                    </div>
                                                     <!-- Location -->
                                                     <div class="kayak-location">
                                                         <button type="button" class="btn-location-kayak">
@@ -248,17 +257,6 @@ include 'includes/header.php';
                                                         <span class="rating-quality">Very good</span>
                                                         <span class="rating-count">(2309)</span>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            
-                                            <!-- Rating & Stars -->
-                                            <div class="kayak-rating-stars mb-3">
-                                                <div class="stars-kayak mt-1">
-                                                    <span class="star-text me-1">4 stars</span>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
                                                 </div>
                                             </div>
 

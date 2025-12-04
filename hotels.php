@@ -45,19 +45,6 @@
 
 <!-- Hero Section avec galerie d'images AMÉLIORÉ -->
 <section class="hotel-hero position-relative">
-    <!-- Badges flottants premium -->
-    <div class="floating-badges">
-        <span class="badge-float badge-popular">
-            <i class="fas fa-fire"></i> Très populaire
-        </span>
-        <span class="badge-float badge-verified">
-            <i class="fas fa-shield-check"></i> Vérifié
-        </span>
-        <span class="badge-float badge-eco">
-            <i class="fas fa-leaf"></i> Éco-responsable
-        </span>
-    </div>
-
     <div class="container-fluid px-0">
         <div class="row g-1">
             <!-- Image principale avec overlay gradient -->
@@ -67,23 +54,6 @@
                     
                     <!-- Overlay gradient sophistiqué -->
                     <div class="hero-gradient-overlay"></div>
-                    
-                    <!-- Compteur de photos avec animation -->
-                    <div class="photo-counter">
-                        <i class="fas fa-camera"></i>
-                        <span class="count-number">28</span>
-                        <span class="count-label">photos</span>
-                    </div>
-                    
-                    <!-- Bouton 360° tour virtuel -->
-                    <div class="virtual-tour-btn">
-                        <i class="fas fa-street-view"></i> Visite 360°
-                    </div>
-                    
-                    <!-- Overlay action -->
-                    <div class="image-overlay">
-                        <i class="fas fa-expand"></i> Voir toutes les photos (28)
-                    </div>
                 </div>
             </div>
             
@@ -96,7 +66,6 @@
                             <div class="gallery-overlay">
                                 <i class="fas fa-search-plus"></i>
                             </div>
-                            <span class="image-label">Piscine</span>
                         </div>
                     </div>
                     <div class="col-6">
@@ -105,7 +74,6 @@
                             <div class="gallery-overlay">
                                 <i class="fas fa-search-plus"></i>
                             </div>
-                            <span class="image-label">Restaurant</span>
                         </div>
                     </div>
                     <div class="col-6">
@@ -114,7 +82,6 @@
                             <div class="gallery-overlay">
                                 <i class="fas fa-search-plus"></i>
                             </div>
-                            <span class="image-label">Chambres</span>
                         </div>
                     </div>
                     <div class="col-6 position-relative">
@@ -123,7 +90,6 @@
                             <div class="show-all-photos-enhanced" data-bs-toggle="modal" data-bs-target="#galleryModal">
                                 <i class="fas fa-th-large"></i>
                                 <div>Voir toutes<br>les photos</div>
-                                <div class="photos-count">+24</div>
                             </div>
                         </div>
                     </div>
@@ -192,10 +158,6 @@
                         <div class="rating-badge-enhanced bg-success text-white px-3 py-2 rounded shadow-sm">
                             <div class="d-flex align-items-center gap-2 mb-1">
                                 <div class="fs-3 fw-bold">8.3</div>
-                                <div class="rating-trend">
-                                    <i class="fas fa-arrow-up small"></i>
-                                    <small>+0.2</small>
-                                </div>
                             </div>
                             <div class="fw-semibold">Très bien</div>
                             <div class="rating-stars small">
@@ -208,9 +170,6 @@
                         </div>
                         <small class="d-block text-muted mt-2">
                             <i class="fas fa-users me-1"></i> 1,079 avis vérifiés
-                        </small>
-                        <small class="d-block text-success mt-1">
-                            <i class="fas fa-certificate me-1"></i> Travellers' Choice 2025
                         </small>
                     </div>
                 </div>
@@ -277,153 +236,128 @@
                     </div>
                 </div>
 
-                <!-- Comparateur de prix en temps réel -->
-                <div class="price-comparison-banner mb-3">
-                    <div class="d-flex align-items-center justify-content-between p-3 bg-light rounded">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="spinner-border spinner-border-sm text-primary" role="status">
-                                <span class="visually-hidden">Chargement...</span>
+                <!-- Filtres de recherche -->
+                <div class="filters-banner mb-3">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body p-3">
+                            <div class="row g-3 align-items-center">
+                                <!-- Filtre Pension -->
+                                <div class="col-md-6">
+                                    <label for="filterPension" class="form-label mb-1 small text-muted">
+                                        <i class="fas fa-utensils"></i> Type de pension
+                                    </label>
+                                    <select id="filterPension" class="form-select">
+                                        <option value="">Toutes les pensions</option>
+                                        <option value="petit-dejeuner">Petit-déjeuner inclus</option>
+                                        <option value="demi-pension">Demi-pension</option>
+                                        <option value="pension-complete">Pension complète</option>
+                                        <option value="all-inclusive">All inclusive</option>
+                                        <option value="sans-repas">Sans repas</option>
+                                    </select>
+                                </div>
+                                
+                                <!-- Filtre Nombre d'adultes -->
+                                <div class="col-md-6">
+                                    <label for="filterAdults" class="form-label mb-1 small text-muted">
+                                        <i class="fas fa-users"></i> Nombre d'adultes
+                                    </label>
+                                    <select id="filterAdults" class="form-select">
+                                        <option value="">Tous</option>
+                                        <option value="1" selected>1 adulte</option>
+                                        <option value="2">2 adultes</option>
+                                        <option value="3">3 adultes</option>
+                                        <option value="4">4 adultes</option>
+                                        <option value="5">5+ adultes</option>
+                                    </select>
+                                </div>
                             </div>
-                            <span class="fw-semibold">Comparaison en cours sur <span class="text-primary" id="sitesCount">247</span> sites...</span>
-                        </div>
-                        <div class="price-range">
-                            <small class="text-muted">Prix trouvés : </small>
-                            <strong class="text-success">68 € - 125 €</strong>
                         </div>
                     </div>
                 </div>
 
                 <!-- Liste des offres de chambres AMÉLIORÉE -->
                 <div class="room-offers">
-                    <!-- Offre 1 - Meilleure offre avec urgence -->
-                    <div class="card mb-3 border-0 shadow-sm room-card-enhanced border-success" style="border-width: 2px !important;">
-                        <div class="position-absolute top-0 start-0 m-2">
-                            <span class="badge bg-success">
-                                <i class="fas fa-medal"></i> Meilleure offre
-                            </span>
-                        </div>
-                        <div class="card-body pt-4">
+                    <!-- Offre 1 - Meilleure offre -->
+                    <div class="card mb-3 border-0 shadow-sm room-card-enhanced position-relative">
+                        <span class="badge bg-success best-deal-badge position-absolute top-0 end-0 m-2">
+                            <i class="fas fa-medal"></i> Meilleure offre
+                        </span>
+                        <div class="card-body">
                             <div class="row align-items-center">
-                                <div class="col-md-6">
+                                <div class="col-md-6 mb-0 mb-md-0">
                                     <h5 class="fw-bold mb-2">Chambre Standard - lits variés</h5>
-                                    <div class="room-features mb-2">
-                                        <span class="feature-icon" title="Superficie"><i class="fas fa-ruler-combined"></i> 32m²</span>
-                                        <span class="feature-icon" title="Vue"><i class="fas fa-water"></i> Vue mer</span>
-                                        <span class="feature-icon" title="Capacité"><i class="fas fa-user-friends"></i> 2 adultes</span>
-                                    </div>
                                     <div class="d-flex gap-2 mb-2 flex-wrap">
-                                        <span class="badge bg-success"><i class="fas fa-coffee"></i> Petit-déjeuner gratuit</span>
-                                        <span class="badge bg-info"><i class="fas fa-undo"></i> Annulation gratuite</span>
-                                        <span class="badge bg-warning text-dark"><i class="fas fa-bolt"></i> Confirmation immédiate</span>
-                                    </div>
-                                    
-                                    <!-- Barre de progression disponibilité -->
-                                    <div class="availability-bar mt-2">
-                                        <div class="d-flex justify-content-between align-items-center mb-1">
-                                            <small class="text-danger fw-semibold">
-                                                <i class="fas fa-exclamation-circle"></i> Plus que 3 chambres !
-                                            </small>
-                                            <small class="text-muted">12 personnes regardent</small>
-                                        </div>
-                                        <div class="progress" style="height: 6px;">
-                                            <div class="progress-bar bg-danger progress-bar-striped progress-bar-animated" style="width: 85%"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 text-end">
-                                    <div class="price-comparison mb-2">
-                                        <small class="text-muted text-decoration-line-through">€105</small>
-                                        <span class="badge bg-danger ms-1">-16%</span>
-                                    </div>
-                                    <div class="price-display">
-                                        <span class="h2 fw-bold text-kayak-orange mb-0">88 €</span>
-                                    </div>
-                                    <small class="text-muted d-block">par nuit</small>
-                                    <small class="text-success fw-semibold">Économisez 17 €</small>
-                                </div>
-                                <div class="col-md-3 text-end">
-                                    <button class="btn btn-primary w-100 mb-2 btn-lg">
-                                        <i class="fas fa-check-circle me-1"></i> Réserver
-                                    </button>
-                                    <div class="provider-info">
-                                        <img src="https://cdn-icons-png.flaticon.com/32/15047/15047587.png" alt="Booking" style="width: 20px; height: 20px;">
-                                        <small class="text-muted">Booking.com</small>
-                                    </div>
-                                    <small class="text-success d-block mt-1">
-                                        <i class="fas fa-shield-check"></i> Paiement sécurisé
-                                    </small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Offre 2 avec timer countdown -->
-                    <div class="card mb-3 border-0 shadow-sm room-card-enhanced">
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col-md-6">
-                                    <div class="d-flex justify-content-between align-items-start mb-2">
-                                        <h5 class="fw-bold mb-0">Chambre Standard - lits variés</h5>
-                                        <span class="badge bg-warning text-dark">
-                                            <i class="fas fa-clock"></i> <span class="countdown-timer">14:32</span>
-                                        </span>
-                                    </div>
-                                    <small class="text-muted d-block mb-2">Cette offre expire bientôt</small>
-                                    <div class="room-features mb-2">
-                                        <span class="feature-icon"><i class="fas fa-ruler-combined"></i> 30m²</span>
-                                        <span class="feature-icon"><i class="fas fa-city"></i> Vue ville</span>
-                                        <span class="feature-icon"><i class="fas fa-user-friends"></i> 2 adultes</span>
-                                    </div>
-                                    <div class="d-flex gap-2 mb-2 flex-wrap">
-                                        <span class="badge bg-success"><i class="fas fa-coffee"></i> Petit-déjeuner gratuit</span>
-                                        <span class="badge bg-secondary"><i class="fas fa-wifi"></i> WiFi</span>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 text-end">
-                                    <div class="price-display">
-                                        <span class="h2 fw-bold text-kayak-orange mb-0">91 €</span>
-                                    </div>
-                                    <small class="text-muted d-block">par nuit</small>
-                                    <div class="price-trend mt-1">
-                                        <i class="fas fa-arrow-up text-danger small"></i>
-                                        <small class="text-muted">+3% depuis hier</small>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 text-end">
-                                    <button class="btn btn-outline-primary w-100 mb-2">
-                                        Voir l'offre
-                                    </button>
-                                    <div class="provider-info">
-                                        <img src="https://cdn-icons-png.flaticon.com/32/15047/15047587.png" alt="Expedia" style="width: 20px; height: 20px;">
-                                        <small class="text-muted">Expedia</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Offre 3 - Non remboursable avec alertes -->
-                    <div class="card mb-3 border-0 shadow-sm room-card-enhanced">
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col-md-6">
-                                    <h5 class="fw-bold mb-2">Bungalow - Non remboursable</h5>
-                                    <div class="d-flex gap-2 mb-2">
                                         <span class="badge bg-light text-dark"><i class="fas fa-coffee"></i> Petit-déjeuner gratuit</span>
-                                        <span class="badge bg-warning text-dark"><i class="fas fa-exclamation-triangle"></i> Non remboursable</span>
+                                        <span class="badge bg-light text-dark"><i class="fas fa-undo"></i> Annulation gratuite</span>
                                     </div>
-                                    <p class="text-muted small mb-0">Hotels.com</p>
                                 </div>
-                                <div class="col-md-3 text-end">
+                                <div class="col-6 col-md-3 text-start text-md-end">
                                     <div class="text-muted small mb-1">À partir de</div>
                                     <div class="price-display">
                                         <span class="h3 fw-bold text-kayak-orange">88 €</span>
                                     </div>
-                                    <div class="text-muted small">Avant taxes</div>
                                 </div>
-                                <div class="col-md-3 text-end">
+                                <div class="col-6 col-md-3 text-end">
+                                    <div class="deal-provider-info mt-2 d-flex justify-content-end">
+                                        <img src="https://content.r9cdn.net/rimg/provider-logos/hotels/h/EXPEDIAHOTEL.png?width=80" alt="Expedia" class="provider-logo" style="max-width: 80px; height: auto;">
+                                    </div>
                                     <button class="btn btn-primary w-100">Voir l'offre</button>
-                                    <small class="text-muted d-block mt-2">Hotels.com</small>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Offre 2 -->
+                    <div class="card mb-3 border-0 shadow-sm room-card-enhanced">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-md-6 mb-0 mb-md-0">
+                                    <h5 class="fw-bold mb-2">Chambre Standard - Vue ville</h5>
+                                    <div class="d-flex gap-2 mb-2 flex-wrap">
+                                        <span class="badge bg-light text-dark"><i class="fas fa-coffee"></i> Petit-déjeuner gratuit</span>
+                                        <span class="badge bg-light text-dark"><i class="fas fa-wifi"></i> WiFi</span>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3 text-start text-md-end">
+                                    <div class="text-muted small mb-1">À partir de</div>
+                                    <div class="price-display">
+                                        <span class="h3 fw-bold text-kayak-orange">91 €</span>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3 text-end">
+                                    <div class="deal-provider-info mt-2 d-flex justify-content-end">
+                                        <img src="https://content.r9cdn.net/rimg/provider-logos/hotels/h/EXPEDIAHOTEL.png?width=80" alt="Expedia" class="provider-logo" style="max-width: 80px; height: auto;">
+                                    </div>
+                                    <button class="btn btn-primary w-100">Voir l'offre</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Offre 3 - Non remboursable -->
+                    <div class="card mb-3 border-0 shadow-sm room-card-enhanced">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-md-6 mb-0 mb-md-0">
+                                    <h5 class="fw-bold mb-2">Bungalow - Non remboursable</h5>
+                                    <div class="d-flex gap-2 mb-2 flex-wrap">
+                                        <span class="badge bg-light text-dark"><i class="fas fa-coffee"></i> Petit-déjeuner gratuit</span>
+                                        <span class="badge bg-warning text-dark"><i class="fas fa-exclamation-triangle"></i> Non remboursable</span>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3 text-start text-md-end">
+                                    <div class="text-muted small mb-1">À partir de</div>
+                                    <div class="price-display">
+                                        <span class="h3 fw-bold text-kayak-orange">88 €</span>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3 text-end">
+                                    <div class="deal-provider-info mt-2 d-flex justify-content-end">
+                                        <img src="https://content.r9cdn.net/rimg/provider-logos/hotels/h/EXPEDIAHOTEL.png?width=80" alt="Expedia" class="provider-logo" style="max-width: 80px; height: auto;">
+                                    </div>
+                                    <button class="btn btn-primary w-100">Voir l'offre</button>
                                 </div>
                             </div>
                         </div>

@@ -104,13 +104,13 @@ function initGuestsDropdown() {
         // Déplacer le dropdown dans le body pour éviter les problèmes d'overflow
         document.body.appendChild(guestsDropdown);
         
-        // Fonction pour positionner le dropdown
+        // Fonction pour positionner le dropdown avec CSS custom properties
         const positionDropdown = () => {
             const rect = guestsBtn.getBoundingClientRect();
-            guestsDropdown.style.position = 'fixed';
-            guestsDropdown.style.top = (rect.bottom + 8) + 'px';
-            guestsDropdown.style.left = rect.left + 'px';
-            guestsDropdown.style.width = rect.width + 'px';
+            // Utiliser des CSS custom properties au lieu de styles inline
+            guestsDropdown.style.setProperty('--dropdown-top', `${rect.bottom + 8}px`);
+            guestsDropdown.style.setProperty('--dropdown-left', `${rect.left}px`);
+            guestsDropdown.style.setProperty('--dropdown-width', `${rect.width}px`);
         };
         
         guestsBtn.addEventListener('click', (e) => {
@@ -416,8 +416,7 @@ const observerOptions = {
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
+            entry.target.classList.add('animate-visible');
         }
     });
 }, observerOptions);
@@ -426,9 +425,7 @@ const observer = new IntersectionObserver((entries) => {
 document.addEventListener('DOMContentLoaded', () => {
     const cards = document.querySelectorAll('.destination-card, .about-card, .faq-item');
     cards.forEach(card => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(30px)';
-        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        card.classList.add('animate-on-scroll');
         observer.observe(card);
     });
 });
@@ -440,9 +437,9 @@ window.addEventListener('scroll', () => {
     const currentScroll = window.pageYOffset;
     
     if (currentScroll > 100) {
-        header.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
+        header.classList.add('scrolled');
     } else {
-        header.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
+        header.classList.remove('scrolled');
     }
     
     lastScroll = currentScroll;
@@ -518,8 +515,7 @@ function initScrollAnimations() {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
+                entry.target.classList.add('animate-visible');
             }
         });
     }, {
@@ -528,9 +524,7 @@ function initScrollAnimations() {
     });
     
     document.querySelectorAll('.card, .stat-card').forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(30px)';
-        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        el.classList.add('animate-on-scroll');
         observer.observe(el);
     });
 }
@@ -542,11 +536,11 @@ function initSearchEnhancements() {
     if (searchInput) {
         // Add search icon animation on focus
         searchInput.addEventListener('focus', () => {
-            searchInput.parentElement.style.backgroundColor = '#f0f8ff';
+            searchInput.parentElement.classList.add('input-focused');
         });
         
         searchInput.addEventListener('blur', () => {
-            searchInput.parentElement.style.backgroundColor = '';
+            searchInput.parentElement.classList.remove('input-focused');
         });
         
         // Add typing indicator
@@ -653,14 +647,12 @@ function initLiveSearchCounter() {
         const increment = Math.floor(Math.random() * 3) + 1;
         count += increment;
         
-        // Animate the change
-        counterElement.style.transform = 'scale(1.2)';
-        counterElement.style.color = '#2ecc71';
+        // Animate the change avec classes CSS
+        counterElement.classList.add('counter-updating');
         
         setTimeout(() => {
             counterElement.textContent = count.toLocaleString('fr-FR');
-            counterElement.style.transform = 'scale(1)';
-            counterElement.style.color = '';
+            counterElement.classList.remove('counter-updating');
         }, 200);
     }, 5000); // Update every 5 seconds
 }
@@ -670,7 +662,7 @@ function initHeroStatsAnimation() {
     const stats = document.querySelectorAll('.stat-item');
     
     stats.forEach((stat, index) => {
-        stat.style.animationDelay = `${index * 0.2}s`;
+        stat.style.setProperty('--animation-delay', `${index * 0.2}s`);
     });
 }
 
@@ -691,8 +683,7 @@ function initTrustBadgeRotation() {
     let currentIndex = 0;
     
     setInterval(() => {
-        badgeElement.style.opacity = '0';
-        badgeElement.style.transform = 'translateY(-10px)';
+        badgeElement.classList.add('badge-fade-out');
         
         setTimeout(() => {
             currentIndex = (currentIndex + 1) % badges.length;
@@ -712,8 +703,9 @@ function initTrustBadgeRotation() {
                 }
             });
             
-            badgeElement.style.opacity = '1';
-            badgeElement.style.transform = 'translateY(0)';
+            badgeElement.classList.remove('badge-fade-out');
+            badgeElement.classList.add('badge-fade-in');
+            setTimeout(() => badgeElement.classList.remove('badge-fade-in'), 300);
         }, 300);
     }, 4000); // Rotate every 4 seconds
 }
@@ -751,13 +743,11 @@ function initPartnerCounter() {
         // Randomly fluctuate between 250-260
         count = 250 + Math.floor(Math.random() * 11);
         
-        counterElement.style.transform = 'scale(1.15)';
-        counterElement.style.color = '#2ecc71';
+        counterElement.classList.add('counter-updating');
         
         setTimeout(() => {
             counterElement.textContent = count + '+';
-            counterElement.style.transform = 'scale(1)';
-            counterElement.style.color = '';
+            counterElement.classList.remove('counter-updating');
         }, 150);
     }, 8000); // Update every 8 seconds
 }
@@ -827,12 +817,7 @@ function initProgressiveValidation() {
                 
                 // Show success feedback
                 const successIcon = document.createElement('i');
-                successIcon.className = 'fas fa-check-circle text-success';
-                successIcon.style.position = 'absolute';
-                successIcon.style.right = '16px';
-                successIcon.style.top = '50%';
-                successIcon.style.transform = 'translateY(-50%)';
-                successIcon.style.animation = 'fadeInUp 0.3s ease-out';
+                successIcon.className = 'fas fa-check-circle text-success destination-success-icon';
                 
                 // Remove any existing icons
                 const existingIcon = destinationInput.parentElement.querySelector('.fa-check-circle');
@@ -1019,9 +1004,7 @@ function initReviewsAnimation() {
     }, { threshold: 0.1 });
 
     reviewCards.forEach(card => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
-        card.style.transition = 'all 0.5s ease';
+        card.classList.add('review-card-hidden');
         observer.observe(card);
     });
 }
@@ -1042,16 +1025,14 @@ function initBreakfastFilter() {
             const hasBreakfast = card.querySelector('.badge .fa-coffee');
             
             if (showOnlyBreakfast && !hasBreakfast) {
-                card.style.display = 'none';
-                card.style.animation = 'fadeOut 0.3s ease';
+                card.classList.add('card-hidden');
             } else {
-                card.style.display = 'block';
-                card.style.animation = 'fadeIn 0.3s ease';
+                card.classList.remove('card-hidden');
             }
         });
 
         // Afficher un message si aucun résultat
-        const visibleOffers = Array.from(roomOffers).filter(card => card.style.display !== 'none');
+        const visibleOffers = Array.from(roomOffers).filter(card => !card.classList.contains('card-hidden'));
         const existingMsg = document.querySelector('.no-results-message');
         
         if (visibleOffers.length === 0 && !existingMsg) {
@@ -1077,9 +1058,8 @@ function initReadMore() {
             const reviewText = btn.previousElementSibling.querySelector('p');
             
             if (reviewText) {
-                reviewText.style.maxHeight = reviewText.style.maxHeight === 'none' ? '60px' : 'none';
-                reviewText.style.overflow = reviewText.style.overflow === 'visible' ? 'hidden' : 'visible';
-                btn.textContent = btn.textContent === 'Lire plus' ? 'Lire moins' : 'Lire plus';
+                reviewText.classList.toggle('review-text-expanded');
+                btn.textContent = reviewText.classList.contains('review-text-expanded') ? 'Lire moins' : 'Lire plus';
             }
         });
     });
@@ -1094,8 +1074,7 @@ function initLiveViewersCounter() {
 
     // Créer un badge de viewers
     const viewersBadge = document.createElement('div');
-    viewersBadge.className = 'alert alert-warning mb-0 mt-2';
-    viewersBadge.style.fontSize = '13px';
+    viewersBadge.className = 'alert alert-warning mb-0 mt-2 viewers-badge';
     viewersBadge.innerHTML = '<i class="fas fa-eye me-2"></i> <span id="viewersCount">0</span> personnes consultent cet hôtel';
     
     const cardBody = priceCard.querySelector('.card-body');
@@ -1109,11 +1088,11 @@ function initLiveViewersCounter() {
         const change = Math.random() > 0.5 ? 1 : -1;
         viewers = Math.max(3, Math.min(25, viewers + change));
         
-        viewersSpan.style.animation = 'pulse 0.5s ease';
+        viewersSpan.classList.add('viewers-pulse');
         viewersSpan.textContent = viewers;
         
         setTimeout(() => {
-            viewersSpan.style.animation = '';
+            viewersSpan.classList.remove('viewers-pulse');
         }, 500);
     }, 4000);
 }
@@ -1126,34 +1105,12 @@ function initStarsTooltip() {
     if (!starsContainer) return;
 
     starsContainer.title = 'Hôtel 5 étoiles';
-    starsContainer.style.cursor = 'help';
+    starsContainer.classList.add('cursor-help');
 }
 
 /**
  * ===== NOUVELLES FONCTIONS UX PREMIUM =====
  */
-
-/**
- * Animation du compteur de sites comparés
- */
-function initSitesComparison() {
-    const sitesCount = document.getElementById('sitesCount');
-    if (!sitesCount) return;
-
-    let count = 50;
-    const target = 247;
-    const duration = 2000;
-    const increment = (target - count) / (duration / 50);
-
-    const timer = setInterval(() => {
-        count += increment;
-        if (count >= target) {
-            count = target;
-            clearInterval(timer);
-        }
-        sitesCount.textContent = Math.floor(count);
-    }, 50);
-}
 
 /**
  * Countdown timer pour offres limitées
@@ -1194,12 +1151,13 @@ function initAvailabilityAnimation() {
     const progressBars = document.querySelectorAll('.availability-bar .progress-bar');
     
     progressBars.forEach(bar => {
-        const width = bar.style.width;
-        bar.style.width = '0';
+        const width = bar.getAttribute('style')?.match(/width:\s*(\d+%)/)?.[1] || bar.style.width;
+        bar.style.setProperty('--target-width', width);
+        bar.classList.add('progress-bar-reset');
         
         setTimeout(() => {
-            bar.style.transition = 'width 1.5s ease-out';
-            bar.style.width = width;
+            bar.classList.remove('progress-bar-reset');
+            bar.classList.add('progress-bar-animate');
         }, 500);
     });
 }
@@ -1216,10 +1174,11 @@ function initFavoriteButton() {
         favoriteBtn.classList.toggle('active');
         
         // Animation du coeur
-        favoriteBtn.style.animation = 'none';
-        setTimeout(() => {
-            favoriteBtn.style.animation = 'heartBeat 0.5s ease';
-        }, 10);
+        favoriteBtn.classList.remove('heartbeat-animation');
+        requestAnimationFrame(() => {
+            favoriteBtn.classList.add('heartbeat-animation');
+            setTimeout(() => favoriteBtn.classList.remove('heartbeat-animation'), 500);
+        });
         
         // Toast notification
         showToast(
@@ -1269,9 +1228,9 @@ function initRealtimePriceUpdates() {
     setInterval(() => {
         priceElements.forEach(priceEl => {
             // Petit flicker pour simuler une mise à jour
-            priceEl.style.animation = 'priceUpdate 0.3s ease';
+            priceEl.classList.add('price-update-animation');
             setTimeout(() => {
-                priceEl.style.animation = '';
+                priceEl.classList.remove('price-update-animation');
             }, 300);
         });
     }, 15000); // Toutes les 15 secondes
@@ -1285,14 +1244,15 @@ function initFloatingBadges() {
     
     badges.forEach((badge, index) => {
         // Animation d'entrée décalée
-        badge.style.animationDelay = `${index * 0.15}s`;
+        badge.style.setProperty('--badge-delay', `${index * 0.15}s`);
         
         // Animation de hover infinie
         setInterval(() => {
-            badge.style.animation = 'none';
-            setTimeout(() => {
-                badge.style.animation = `bounceSmall 0.6s ease ${index * 0.15}s`;
-            }, 10);
+            badge.classList.remove('badge-bounce-animation');
+            requestAnimationFrame(() => {
+                badge.classList.add('badge-bounce-animation');
+                setTimeout(() => badge.classList.remove('badge-bounce-animation'), 600);
+            });
         }, 5000 + (index * 500));
     });
 }
@@ -1312,9 +1272,9 @@ function initRealTimeViewers() {
             text.textContent = text.textContent.replace(/\d+/, newNumber);
             
             // Animation flash
-            text.style.color = '#ff8000';
+            text.classList.add('text-flash-orange');
             setTimeout(() => {
-                text.style.color = '';
+                text.classList.remove('text-flash-orange');
             }, 300);
         };
         
@@ -1332,8 +1292,7 @@ function initRoomCardsAnimation() {
         entries.forEach((entry, index) => {
             if (entry.isIntersecting) {
                 setTimeout(() => {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+                    entry.target.classList.add('room-card-visible');
                 }, index * 100);
                 observer.unobserve(entry.target);
             }
@@ -1341,9 +1300,7 @@ function initRoomCardsAnimation() {
     }, { threshold: 0.1 });
     
     cards.forEach(card => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(30px)';
-        card.style.transition = 'all 0.6s ease';
+        card.classList.add('room-card-hidden');
         observer.observe(card);
     });
 }
@@ -1357,9 +1314,10 @@ function initGalleryPreload() {
     galleryImages.forEach(img => {
         img.addEventListener('click', () => {
             // Animation de zoom
-            img.style.transform = 'scale(0.95)';
+            const imgElement = img.querySelector('img') || img;
+            imgElement.classList.add('image-zoom-click');
             setTimeout(() => {
-                img.style.transform = '';
+                imgElement.classList.remove('image-zoom-click');
             }, 200);
         });
     });
@@ -1372,25 +1330,18 @@ function showToast(message, type = 'info') {
     const toast = document.createElement('div');
     toast.className = `toast-notification toast-${type}`;
     toast.textContent = message;
-    toast.style.cssText = `
-        position: fixed;
-        top: 100px;
-        right: 20px;
-        background: ${type === 'success' ? '#2ecc71' : type === 'danger' ? '#e74c3c' : '#3498db'};
-        color: white;
-        padding: 15px 25px;
-        border-radius: 10px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        z-index: 9999;
-        animation: slideInRight 0.3s ease, slideOutRight 0.3s ease 2.7s;
-        font-weight: 500;
-    `;
     
     document.body.appendChild(toast);
     
+    // Laisser le navigateur appliquer les styles avant l'animation
+    requestAnimationFrame(() => {
+        toast.classList.add('toast-show');
+    });
+    
     setTimeout(() => {
-        toast.remove();
-    }, 3000);
+        toast.classList.add('toast-hide');
+        setTimeout(() => toast.remove(), 300);
+    }, 2700);
 }
 
 // Ajouter les animations CSS nécessaires
@@ -1516,7 +1467,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initShowMoreRooms();
     
     // Init fonctions page hotels.php - PREMIUM UX
-    initSitesComparison();
     initCountdownTimers();
     initAvailabilityAnimation();
     initFavoriteButton();
@@ -1567,9 +1517,9 @@ function initMobileCTA() {
             roomsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
             
             // Animation haptic feedback
-            mobileCTABtn.style.animation = 'pulse 0.3s ease';
+            mobileCTABtn.classList.add('btn-pulse-animation');
             setTimeout(() => {
-                mobileCTABtn.style.animation = '';
+                mobileCTABtn.classList.remove('btn-pulse-animation');
             }, 300);
             
             // Toast
@@ -1617,9 +1567,9 @@ function initMobileQuickActions() {
             }
             
             // Haptic feedback simulation
-            shareBtn.style.transform = 'scale(0.9)';
+            shareBtn.classList.add('btn-scale-click');
             setTimeout(() => {
-                shareBtn.style.transform = '';
+                shareBtn.classList.remove('btn-scale-click');
             }, 100);
         });
     }
@@ -1639,9 +1589,9 @@ function initMobileQuickActions() {
             }
             
             // Animation
-            favoriteBtn.style.animation = 'heartBeat 0.5s ease';
+            favoriteBtn.classList.add('heartbeat-animation');
             setTimeout(() => {
-                favoriteBtn.style.animation = '';
+                favoriteBtn.classList.remove('heartbeat-animation');
             }, 500);
         });
     }
@@ -1663,9 +1613,9 @@ function initMobileQuickActions() {
             });
             
             // Haptic feedback
-            scrollTopBtn.style.transform = 'scale(0.8)';
+            scrollTopBtn.classList.add('btn-scale-click');
             setTimeout(() => {
-                scrollTopBtn.style.transform = '';
+                scrollTopBtn.classList.remove('btn-scale-click');
             }, 150);
         });
     }
@@ -1702,43 +1652,15 @@ function initMobileScrollIndicators() {
             const hint = document.createElement('div');
             hint.className = 'scroll-hint';
             hint.innerHTML = '→';
-            hint.style.cssText = `
-                position: absolute;
-                right: 10px;
-                top: 50%;
-                transform: translateY(-50%);
-                background: rgba(255,127,0,0.9);
-                color: white;
-                width: 30px;
-                height: 30px;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-weight: bold;
-                animation: bounceRight 1s infinite;
-                pointer-events: none;
-                z-index: 10;
-            `;
             
             section.appendChild(hint);
             
             // Hide hint after first scroll
             section.addEventListener('scroll', () => {
-                hint.style.display = 'none';
+                hint.classList.add('hidden');
             }, { once: true });
         }
     });
-
-    // Add bounce animation
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes bounceRight {
-            0%, 100% { transform: translateY(-50%) translateX(0); }
-            50% { transform: translateY(-50%) translateX(5px); }
-        }
-    `;
-    document.head.appendChild(style);
 }
 
 /**
@@ -1831,12 +1753,14 @@ function initMobileSwipeGallery() {
             e.preventDefault();
             const x = e.touches[0].pageX;
             const walk = (x - startX) * 2;
-            col.style.transform = `translateX(${walk}px)`;
+            col.style.setProperty('--touch-drag-offset', `${walk}px`);
+            col.classList.add('touch-dragging');
         });
         
         col.addEventListener('touchend', () => {
             isDown = false;
-            col.style.transform = 'translateX(0)';
+            col.classList.remove('touch-dragging');
+            col.style.removeProperty('--touch-drag-offset');
         });
     });
 }
@@ -1917,23 +1841,15 @@ function initMobileSearchForm() {
     inputGroups.forEach(group => {
         group.addEventListener('click', function(e) {
             const ripple = document.createElement('span');
+            ripple.className = 'ripple-effect';
             const rect = this.getBoundingClientRect();
             const size = Math.max(rect.width, rect.height);
             const x = e.clientX - rect.left - size / 2;
             const y = e.clientY - rect.top - size / 2;
             
-            ripple.style.cssText = `
-                position: absolute;
-                width: ${size}px;
-                height: ${size}px;
-                border-radius: 50%;
-                background: rgba(255, 128, 0, 0.2);
-                left: ${x}px;
-                top: ${y}px;
-                transform: scale(0);
-                animation: ripple 0.6s ease-out;
-                pointer-events: none;
-            `;
+            ripple.style.setProperty('--ripple-size', `${size}px`);
+            ripple.style.setProperty('--ripple-x', `${x}px`);
+            ripple.style.setProperty('--ripple-y', `${y}px`);
             
             this.style.position = 'relative';
             this.style.overflow = 'hidden';
@@ -1943,38 +1859,12 @@ function initMobileSearchForm() {
         });
     });
     
-    // Add ripple animation
-    if (!document.querySelector('#rippleAnimation')) {
-        const style = document.createElement('style');
-        style.id = 'rippleAnimation';
-        style.textContent = `
-            @keyframes ripple {
-                to {
-                    transform: scale(4);
-                    opacity: 0;
-                }
-            }
-        `;
-        document.head.appendChild(style);
-    }
-    
     // Enhance dropdown behavior for mobile
     const guestsDropdown = document.querySelector('.guests-dropdown');
     if (guestsDropdown) {
         // Add backdrop for mobile dropdown
         const backdrop = document.createElement('div');
         backdrop.className = 'mobile-dropdown-backdrop';
-        backdrop.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 9999;
-            display: none;
-            backdrop-filter: blur(2px);
-        `;
         document.body.appendChild(backdrop);
         
         // Show/hide backdrop with dropdown (only on mobile)
@@ -1984,7 +1874,7 @@ function initMobileSearchForm() {
                     const isShown = guestsDropdown.classList.contains('show');
                     // Only show backdrop on mobile screens
                     if (window.innerWidth <= 768) {
-                        backdrop.style.display = isShown ? 'block' : 'none';
+                        backdrop.classList.toggle('show', isShown);
                         if (isShown && navigator.vibrate) {
                             navigator.vibrate(10);
                         }
@@ -2014,28 +1904,14 @@ function initPartnersSwipe() {
     // Add scroll indicator
     const indicator = document.createElement('div');
     indicator.className = 'partners-scroll-indicator';
-    indicator.style.cssText = `
-        position: absolute;
-        bottom: 5px;
-        left: 50%;
-        transform: translateX(-50%);
-        display: flex;
-        gap: 6px;
-        z-index: 10;
-    `;
     
     const partnerLogos = partnersRow.querySelectorAll('.partner-logo');
     const dotCount = Math.min(5, Math.ceil(partnerLogos.length / 2));
     
     for (let i = 0; i < dotCount; i++) {
         const dot = document.createElement('div');
-        dot.style.cssText = `
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: ${i === 0 ? '#ff8000' : '#ddd'};
-            transition: all 0.3s ease;
-        `;
+        dot.className = 'indicator-dot';
+        if (i === 0) dot.classList.add('active');
         indicator.appendChild(dot);
     }
     
@@ -2047,9 +1923,8 @@ function initPartnersSwipe() {
         const scrollPercentage = partnersRow.scrollLeft / (partnersRow.scrollWidth - partnersRow.clientWidth);
         const activeDot = Math.floor(scrollPercentage * dotCount);
         
-        indicator.querySelectorAll('div').forEach((dot, index) => {
-            dot.style.background = index === activeDot ? '#ff8000' : '#ddd';
-            dot.style.width = index === activeDot ? '20px' : '6px';
+        indicator.querySelectorAll('.indicator-dot').forEach((dot, index) => {
+            dot.classList.toggle('active', index === activeDot);
         });
     });
 }
@@ -2065,16 +1940,7 @@ function initDestinationsSwipe() {
     
     // Add progress bar
     const progressBar = document.createElement('div');
-    progressBar.style.cssText = `
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        height: 3px;
-        background: #ff8000;
-        width: 0;
-        transition: width 0.1s ease;
-        z-index: 10;
-    `;
+    progressBar.className = 'destinations-progress-bar';
     
     destRow.parentElement.style.position = 'relative';
     destRow.parentElement.appendChild(progressBar);
@@ -2082,7 +1948,7 @@ function initDestinationsSwipe() {
     // Update progress on scroll
     destRow.addEventListener('scroll', () => {
         const scrollPercentage = (destRow.scrollLeft / (destRow.scrollWidth - destRow.clientWidth)) * 100;
-        progressBar.style.width = scrollPercentage + '%';
+        progressBar.style.setProperty('--progress-width', scrollPercentage + '%');
         
         // Haptic feedback at 50%
         if (scrollPercentage > 48 && scrollPercentage < 52 && navigator.vibrate) {
@@ -2108,7 +1974,7 @@ function initMobileFAB() {
     fab.setAttribute('aria-label', 'Recherche rapide');
     
     // Hide FAB initially
-    fab.style.transform = 'scale(0)';
+    fab.classList.add('fab-hidden');
     document.body.appendChild(fab);
     
     // Show FAB when scrolled past hero
@@ -2119,10 +1985,12 @@ function initMobileFAB() {
         
         if (currentScroll > heroHeight && currentScroll > lastScroll) {
             // Scrolling down, past hero - show FAB
-            fab.style.transform = 'scale(1)';
+            fab.classList.remove('fab-hidden');
+            fab.classList.add('fab-visible');
         } else if (currentScroll < heroHeight / 2) {
             // Near top - hide FAB
-            fab.style.transform = 'scale(0)';
+            fab.classList.remove('fab-visible');
+            fab.classList.add('fab-hidden');
         }
         
         lastScroll = currentScroll;
@@ -2160,20 +2028,7 @@ function initHomeMobileGestures() {
     
     // Pull-to-refresh hint (visual only)
     const refreshHint = document.createElement('div');
-    refreshHint.style.cssText = `
-        position: fixed;
-        top: -50px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: rgba(255,128,0,0.95);
-        color: white;
-        padding: 10px 20px;
-        border-radius: 0 0 20px 20px;
-        font-size: 14px;
-        transition: top 0.3s ease;
-        z-index: 9999;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    `;
+    refreshHint.className = 'pull-refresh-hint';
     refreshHint.innerHTML = '<i class="fas fa-sync-alt me-2"></i>Glissez pour actualiser';
     document.body.appendChild(refreshHint);
     
@@ -2188,7 +2043,8 @@ function initHomeMobileGestures() {
             pullDistance = e.touches[0].clientY - touchStartY;
             
             if (pullDistance > 0 && pullDistance < 100) {
-                refreshHint.style.top = Math.min(pullDistance - 50, 0) + 'px';
+                const topValue = Math.min(pullDistance - 50, 0) + 'px';
+                refreshHint.style.setProperty('--hint-top', topValue);
             }
         }
     });
@@ -2196,17 +2052,17 @@ function initHomeMobileGestures() {
     document.addEventListener('touchend', () => {
         if (pullDistance > 80) {
             // Show refresh message
-            refreshHint.style.top = '0px';
+            refreshHint.classList.add('show');
             refreshHint.innerHTML = '<i class="fas fa-check-circle me-2"></i>Déjà à jour!';
             
             setTimeout(() => {
-                refreshHint.style.top = '-50px';
+                refreshHint.classList.remove('show');
                 setTimeout(() => {
                     refreshHint.innerHTML = '<i class="fas fa-sync-alt me-2"></i>Glissez pour actualiser';
                 }, 300);
             }, 2000);
         } else {
-            refreshHint.style.top = '-50px';
+            refreshHint.classList.remove('show');
         }
         
         touchStartY = 0;
