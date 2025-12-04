@@ -42,12 +42,27 @@ include 'includes/header.php';
             </div>
         </div>
 
+        <!-- Floating Filter Button (Mobile Only) -->
+        <button class="btn-filters-mobile" id="openFiltersBtn" aria-label="Ouvrir les filtres">
+            <i class="fas fa-sliders-h me-2"></i>
+            <span>Filtres & Tri</span>
+            <span class="filter-count-badge" id="activeFiltersCount">0</span>
+        </button>
+
         <!-- Main Content -->
         <div class="container-fluid px-4 py-4">
             <div class="row">
                 <!-- Sidebar Filters -->
                 <div class="col-lg-3">
-                    <div class="filters-sidebar">
+                    <div class="filters-sidebar" id="filtersSidebar">
+                        <!-- Mobile Header -->
+                        <div class="filters-mobile-header d-lg-none">
+                            <h5 class="mb-0 fw-bold">Filtres & Tri</h5>
+                            <button class="btn-close-filters" id="closeFiltersBtn" aria-label="Fermer les filtres">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+
                         <!-- Results Count -->
                         <div class="mb-4">
                             <h5 class="fw-bold">Nous avons trouvé <span class="text-primary">158 hôtels</span> sur 243 sites</h5>
@@ -178,6 +193,16 @@ include 'includes/header.php';
                                     Climatisation <span class="text-muted">(134)</span>
                                 </label>
                             </div>
+                        </div>
+
+                        <!-- Mobile Footer with Apply Button -->
+                        <div class="filters-mobile-footer d-lg-none">
+                            <button class="btn btn-outline-secondary btn-reset-filters" id="resetFiltersBtn">
+                                <i class="fas fa-undo me-2"></i>Réinitialiser
+                            </button>
+                            <button class="btn btn-primary btn-apply-filters" id="applyFiltersBtn">
+                                <i class="fas fa-check me-2"></i>Appliquer
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -337,6 +362,9 @@ include 'includes/header.php';
             </div>
         </div>
     </div>
+
+    <!-- Filters Backdrop (Mobile Only) -->
+    <div class="filters-backdrop" id="filtersBackdrop"></div>
 
 <?php
 // Include Footer

@@ -2086,11 +2086,124 @@ function initHomepageMobile() {
     }
 }
 
+/**
+ * ===== MOBILE FILTERS BOTTOM SHEET (SEARCH PAGE) =====
+ */
+function initMobileFilters() {
+    const openBtn = document.getElementById('openFiltersBtn');
+    const closeBtn = document.getElementById('closeFiltersBtn');
+    const applyBtn = document.getElementById('applyFiltersBtn');
+    const resetBtn = document.getElementById('resetFiltersBtn');
+    const sidebar = document.getElementById('filtersSidebar');
+    const backdrop = document.getElementById('filtersBackdrop');
+    const countBadge = document.getElementById('activeFiltersCount');
+    
+    if (!openBtn || !sidebar) return; // Not on search page
+    
+    // Track active filters count
+    let activeFiltersCount = 0;
+    
+    function updateFiltersCount() {
+        const checkedFilters = sidebar.querySelectorAll('input[type="checkbox"]:checked, .rating-filter-btn.active');
+        activeFiltersCount = checkedFilters.length;
+        countBadge.textContent = activeFiltersCount;
+        countBadge.style.display = activeFiltersCount > 0 ? 'flex' : 'none';
+    }
+    
+    function openFilters() {
+        sidebar.classList.add('show');
+        backdrop.classList.add('show');
+        document.body.style.overflow = 'hidden';
+        
+        // Haptic feedback
+        if (navigator.vibrate) {
+            navigator.vibrate(10);
+        }
+    }
+    
+    function closeFilters() {
+        sidebar.classList.remove('show');
+        backdrop.classList.remove('show');
+        document.body.style.overflow = '';
+    }
+    
+    function applyFilters() {
+        updateFiltersCount();
+        closeFilters();
+        
+        // Scroll to top of results
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        
+        // Haptic feedback
+        if (navigator.vibrate) {
+            navigator.vibrate([10, 20, 10]);
+        }
+    }
+    
+    function resetFilters() {
+        // Uncheck all checkboxes
+        sidebar.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
+            cb.checked = false;
+        });
+        
+        // Deactivate rating filters
+        sidebar.querySelectorAll('.rating-filter-btn.active').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        
+        // Reset price range
+        const priceRange = sidebar.querySelector('input[type="range"]');
+        if (priceRange) {
+            priceRange.value = priceRange.max / 2;
+        }
+        
+        updateFiltersCount();
+        
+        // Haptic feedback
+        if (navigator.vibrate) {
+            navigator.vibrate(20);
+        }
+    }
+    
+    // Event Listeners
+    openBtn.addEventListener('click', openFilters);
+    if (closeBtn) closeBtn.addEventListener('click', closeFilters);
+    if (applyBtn) applyBtn.addEventListener('click', applyFilters);
+    if (resetBtn) resetBtn.addEventListener('click', resetFilters);
+    backdrop.addEventListener('click', closeFilters);
+    
+    // Close on ESC key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && sidebar.classList.contains('show')) {
+            closeFilters();
+        }
+    });
+    
+    // Update count on filter change
+    sidebar.addEventListener('change', updateFiltersCount);
+    
+    // Handle rating filter buttons
+    sidebar.querySelectorAll('.rating-filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            sidebar.querySelectorAll('.rating-filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            updateFiltersCount();
+        });
+    });
+    
+    // Initialize count
+    updateFiltersCount();
+}
+
 // Initialize homepage mobile features on load
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initHomepageMobile);
+    document.addEventListener('DOMContentLoaded', () => {
+        initHomepageMobile();
+        initMobileFilters(); // Initialize search page mobile filters
+    });
 } else {
     initHomepageMobile();
+    initMobileFilters(); // Initialize search page mobile filters
 }
 
 // Reinitialize on resize (orientation change)
@@ -2099,6 +2212,7 @@ window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {
         initHomepageMobile();
+        initMobileFilters();
     }, 250);
 });
 
